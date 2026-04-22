@@ -1,0 +1,17 @@
+/*
+ * My Theme — minimal example theme.
+ *
+ * Scope every variable under .console-theme-my-theme so consumers can opt in
+ * with <ConsoleHost theme="my-theme" /> (which adds the class to the rig).
+ *
+ * Only --holo-* variables are respected by the rig. Don't target rig elements
+ * directly — it will break on theme swap.
+ */
+.console-theme-my-theme {
+  --holo-plastic: #0a0f1f;
+  --holo-plastic-hi: #1a2340;
+  --holo-plastic-lo: #050811;
+  --holo-warning: #ff2fd6;
+  --holo-phosphor: rgba(255, 47, 214, 0.35);
+  --holo-rig-border: rgba(255, 47, 214, 0.38);
+}

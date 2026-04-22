@@ -1,0 +1,18 @@
+{
+  "id": "my-theme",
+  "slug": "my-theme",
+  "name": "My Theme",
+  "author": "Your Name",
+  "authorUrl": "https://example.com",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "One sentence describing the vibe.",
+  "tags": ["dark", "neon"],
+  "files": {
+    "css": "theme.css",
+    "readme": "README.md"
+  },
+  "homepage": "https://example.com",
+  "repo": "https://github.com/you/your-theme",
+  "status": "active"
+}

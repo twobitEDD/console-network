@@ -1,0 +1,78 @@
+name: "🎨 Theme submission (non-PR path)"
+description: Propose a theme for the Console Network registry without opening a pull request yourself.
+title: "[theme] "
+labels: ["registry", "theme", "needs-intake"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Prefer PRs? Great — follow the [contribution guide](https://github.com/twobitEDD/console-network/blob/main/.github/CONTRIBUTING.md).
+        This form is for people who don't want to set up a git workflow. A maintainer will open the PR on your behalf.
+  - type: input
+    id: slug
+    attributes:
+      label: Theme slug
+      description: Lowercase kebab-case. Must not already exist in `registry/themes/`.
+      placeholder: my-cool-theme
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: Theme name
+    validations:
+      required: true
+  - type: input
+    id: author
+    attributes:
+      label: Author
+      description: Display name or handle.
+    validations:
+      required: true
+  - type: input
+    id: author_url
+    attributes:
+      label: Author URL
+      placeholder: https://…
+  - type: input
+    id: license
+    attributes:
+      label: License
+      description: SPDX identifier. MIT, Apache-2.0, CC-BY-4.0, etc.
+      value: MIT
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: One-sentence description
+      placeholder: Midnight-green CRT with warm phosphor and oversized bezels.
+    validations:
+      required: true
+  - type: textarea
+    id: css
+    attributes:
+      label: Theme CSS
+      description: Only `--holo-*` overrides. Scope under `.console-theme-<slug>`.
+      render: css
+      placeholder: |
+        .console-theme-my-cool-theme {
+          --holo-plastic: #0a0f1f;
+          --holo-warning: #22d3ee;
+        }
+    validations:
+      required: true
+  - type: textarea
+    id: preview
+    attributes:
+      label: Preview image
+      description: Drag-and-drop a 960×600 PNG. Screenshots of the theme on any rig are fine.
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Terms
+      options:
+        - label: I have the right to publish this theme under the license above
+          required: true
+        - label: I agree to the [Code of Conduct](https://github.com/twobitEDD/console-network/blob/main/.github/CODE_OF_CONDUCT.md)
+          required: true

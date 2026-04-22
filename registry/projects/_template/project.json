@@ -1,0 +1,24 @@
+{
+  "id": "my-project",
+  "slug": "my-project",
+  "name": "My Project",
+  "owner": "Your Name or Org",
+  "ownerUrl": "https://example.com",
+  "url": "https://my-project.example.com",
+  "repo": "https://github.com/you/my-project",
+  "license": "MIT",
+  "description": "A one-sentence elevator pitch between 12 and 280 characters.",
+  "longDescription": "Optional multi-paragraph description. Markdown is not rendered; plain text only.",
+  "tags": ["game", "onchain"],
+  "chainIds": [],
+  "category": "game",
+  "requiresWallet": false,
+  "usesConsoleNetwork": true,
+  "files": {
+    "readme": "README.md"
+  },
+  "social": {
+    "twitter": "@yourhandle"
+  },
+  "status": "active"
+}

@@ -1,0 +1,66 @@
+{
+  "name": "@twobitedd/console-network",
+  "version": "0.1.0",
+  "description": "Reusable holo-console UI framework for blockchain-powered interactive apps and games. Mount any game module into a standard salvage-rig shell with α/β list rails, a center MODAL, and a bottom HUD.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "main": "./dist/console-network.cjs.js",
+  "module": "./dist/console-network.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/console-network.es.js",
+      "require": "./dist/console-network.cjs.js"
+    },
+    "./styles.css": "./dist/style.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build",
+    "prepublishOnly": "npm run build",
+    "lint": "eslint src"
+  },
+  "keywords": [
+    "console",
+    "holoframe",
+    "game-framework",
+    "react",
+    "blockchain",
+    "dynamic.xyz",
+    "web3"
+  ],
+  "author": "twobitEDD",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/twobitEDD/console-network.git",
+    "directory": "package"
+  },
+  "bugs": {
+    "url": "https://github.com/twobitEDD/console-network/issues"
+  },
+  "homepage": "https://github.com/twobitEDD/console-network#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "react": ">=18 <20",
+    "react-dom": ">=18 <20"
+  },
+  "peerDependenciesMeta": {
+    "react-dom": { "optional": true }
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.1.4",
+    "vite": "^7.3.1"
+  }
+}

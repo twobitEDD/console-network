@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/twobitEDD/console-network/registry/_schema/theme.schema.json",
+  "title": "Console Network Theme Manifest",
+  "description": "Metadata for a theme registered with the Console Network. Themes override --holo-* CSS custom properties on the .edd-holo-rig element. Theme CSS must be self-contained (no imports), under 8 kB, and must not override rules outside the rig.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "slug", "name", "author", "version", "license", "files"],
+  "properties": {
+    "id":       { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$", "description": "Globally unique id. Lowercase kebab-case. Must equal the folder name." },
+    "slug":     { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$", "description": "URL slug. Normally equal to id." },
+    "name":     { "type": "string", "minLength": 2, "maxLength": 48, "description": "Display name." },
+    "author":   { "type": "string", "minLength": 1, "maxLength": 64 },
+    "authorUrl":{ "type": "string", "format": "uri" },
+    "version":  { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "SemVer." },
+    "license":  { "type": "string", "minLength": 2, "maxLength": 32, "description": "SPDX identifier (e.g. MIT, Apache-2.0, CC-BY-4.0)." },
+    "description":{ "type": "string", "maxLength": 280 },
+    "tags":     { "type": "array", "maxItems": 8, "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,20}$" } },
+    "files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["css"],
+      "properties": {
+        "css":     { "type": "string", "pattern": "^theme\\.css$" },
+        "preview": { "type": "string", "pattern": "^preview\\.(png|jpg|webp)$" },
+        "readme":  { "type": "string", "pattern": "^README\\.md$" }
+      }
+    },
+    "homepage": { "type": "string", "format": "uri" },
+    "repo":     { "type": "string", "format": "uri" },
+    "status":   { "type": "string", "enum": ["active", "hidden", "deprecated"], "default": "active" }
+  }
+}

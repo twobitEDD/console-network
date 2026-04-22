@@ -1,0 +1,95 @@
+name: "🔌 Project submission (non-PR path)"
+description: Propose a project for the Console Network Connections directory without opening a pull request yourself.
+title: "[project] "
+labels: ["registry", "project", "needs-intake"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Prefer PRs? Follow the [contribution guide](https://github.com/twobitEDD/console-network/blob/main/.github/CONTRIBUTING.md).
+        This form is for people who want a maintainer to open the PR for them.
+  - type: input
+    id: slug
+    attributes:
+      label: Project slug
+      description: Lowercase kebab-case. Must not already exist in `registry/projects/`.
+      placeholder: my-arcade-game
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: Project name
+    validations:
+      required: true
+  - type: input
+    id: owner
+    attributes:
+      label: Owner
+      description: Person, team, or org maintaining the project.
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Project URL
+      placeholder: https://…
+    validations:
+      required: true
+  - type: input
+    id: repo
+    attributes:
+      label: Repo URL
+      placeholder: https://github.com/…
+  - type: input
+    id: license
+    attributes:
+      label: License
+      description: SPDX identifier. MIT, Apache-2.0, etc.
+      value: MIT
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: 12–280 characters. Plain English.
+    validations:
+      required: true
+  - type: input
+    id: chain_ids
+    attributes:
+      label: Chain IDs
+      description: Comma-separated EVM chain ids (e.g. `1, 8453`). Leave blank if off-chain.
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - game
+        - app
+        - tool
+        - collection
+        - community
+        - experiment
+  - type: checkboxes
+    id: flags
+    attributes:
+      label: Flags
+      options:
+        - label: Requires a wallet
+        - label: Actually mounts `@twobitedd/console-network` (vs. adjacent/linked)
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Cover + icon
+      description: Drag-and-drop 1200×630 cover and/or 256×256 icon images.
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Terms
+      options:
+        - label: My project is not a scam, phishing site, or illegal content
+          required: true
+        - label: I agree to the [Code of Conduct](https://github.com/twobitEDD/console-network/blob/main/.github/CODE_OF_CONDUCT.md)
+          required: true

@@ -1,0 +1,20 @@
+{
+  "id": "super-tic-tac-toe",
+  "slug": "super-tic-tac-toe",
+  "name": "Super Tic-Tac-Toe",
+  "owner": "twobitEDD",
+  "ownerUrl": "https://github.com/twobitEDD",
+  "url": "https://github.com/twobitEDD/super-tic-tac-toe-site",
+  "repo": "https://github.com/twobitEDD/super-tic-tac-toe-site",
+  "license": "MIT",
+  "description": "Nested 3×3 tic-tac-toe where the last move dictates which sub-board you play next. Runs inside the Noxcruiser rig.",
+  "tags": ["game", "strategy", "pvp"],
+  "chainIds": [],
+  "category": "game",
+  "requiresWallet": false,
+  "usesConsoleNetwork": true,
+  "files": {
+    "readme": "README.md"
+  },
+  "status": "active"
+}

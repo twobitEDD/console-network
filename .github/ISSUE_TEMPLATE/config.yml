@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Read the docs first
+    url: https://github.com/twobitEDD/console-network/blob/main/package/README.md
+    about: The full framework overview and getting-started guide.
+  - name: Read the contribution guide
+    url: https://github.com/twobitEDD/console-network/blob/main/.github/CONTRIBUTING.md
+    about: How themes and projects get registered.

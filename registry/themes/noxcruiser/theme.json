@@ -1,0 +1,18 @@
+{
+  "id": "noxcruiser",
+  "slug": "noxcruiser",
+  "name": "Noxcruiser",
+  "author": "twobitEDD",
+  "authorUrl": "https://github.com/twobitEDD",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "The default salvage-rig skin: slate plastic, cyan phosphor, warm CRT glow.",
+  "tags": ["default", "dark", "cyan", "crt"],
+  "files": {
+    "css": "theme.css",
+    "readme": "README.md"
+  },
+  "homepage": "https://github.com/twobitEDD/console-network",
+  "repo": "https://github.com/twobitEDD/console-network",
+  "status": "active"
+}

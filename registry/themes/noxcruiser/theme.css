@@ -1,0 +1,17 @@
+/*
+ * Noxcruiser — the default console-network theme.
+ *
+ * This is the same palette baked into the package's base styles. It's mirrored
+ * here so it can be registered like any other theme and served from the CDN.
+ *
+ * Re-skin by copying this file, renaming the class, and tweaking --holo-*.
+ */
+.console-theme-noxcruiser {
+  --holo-plastic: #1e293b;
+  --holo-plastic-hi: #334155;
+  --holo-plastic-lo: #0f172a;
+  --holo-warning: #22d3ee;
+  --holo-phosphor: rgba(34, 211, 238, 0.38);
+  --holo-rig-border: rgba(56, 189, 248, 0.32);
+  --holo-rig-shadow-glow: rgba(56, 189, 248, 0.1);
+}

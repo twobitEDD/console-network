@@ -1,0 +1,16 @@
+node_modules/
+npm-debug.log*
+yarn.lock
+.DS_Store
+coverage/
+
+package/dist/
+examples/demo/dist/
+
+.env
+.env.local
+.env.*.local
+
+*.log
+.vite/
+.cache/

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/twobitEDD/console-network/registry/_schema/project.schema.json",
+  "title": "Console Network Project Manifest",
+  "description": "Metadata for a project (app, game, tool) listed in the Console Network Connections directory. The registry only links to your project — it does not host or execute your code.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "slug", "name", "owner", "url", "license", "description"],
+  "properties": {
+    "id":       { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$", "description": "Globally unique id. Lowercase kebab-case. Must equal the folder name." },
+    "slug":     { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$" },
+    "name":     { "type": "string", "minLength": 2, "maxLength": 64 },
+    "owner":    { "type": "string", "minLength": 1, "maxLength": 64, "description": "Person, team, or org maintaining the project." },
+    "ownerUrl": { "type": "string", "format": "uri" },
+    "url":      { "type": "string", "format": "uri", "description": "Live project URL (the link users click from the Connections panel)." },
+    "repo":     { "type": "string", "format": "uri" },
+    "license":  { "type": "string", "minLength": 2, "maxLength": 32 },
+    "description":{ "type": "string", "minLength": 12, "maxLength": 280 },
+    "longDescription":{ "type": "string", "maxLength": 2000 },
+    "tags":     { "type": "array", "maxItems": 10, "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,20}$" } },
+    "chainIds": { "type": "array", "maxItems": 16, "items": { "type": ["integer","string"] }, "description": "EVM chain ids or non-EVM chain identifiers the project uses. [] means no chain." },
+    "category": { "type": "string", "enum": ["game", "app", "tool", "collection", "community", "experiment"] },
+    "requiresWallet": { "type": "boolean", "default": false },
+    "usesConsoleNetwork":{ "type": "boolean", "default": true, "description": "Whether the project actually mounts @twobitedd/console-network. Off means 'adjacent/linked' — still listable but flagged in the UI." },
+    "files": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cover":  { "type": "string", "pattern": "^cover\\.(png|jpg|webp)$" },
+        "icon":   { "type": "string", "pattern": "^icon\\.(png|jpg|webp|svg)$" },
+        "readme": { "type": "string", "pattern": "^README\\.md$" }
+      }
+    },
+    "social": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "twitter":  { "type": "string", "pattern": "^@?[A-Za-z0-9_]{1,15}$" },
+        "discord":  { "type": "string", "format": "uri" },
+        "farcaster":{ "type": "string", "pattern": "^@?[A-Za-z0-9_.-]{1,64}$" },
+        "telegram": { "type": "string", "format": "uri" }
+      }
+    },
+    "status": { "type": "string", "enum": ["active", "hidden", "deprecated", "incubating"], "default": "active" }
+  }
+}

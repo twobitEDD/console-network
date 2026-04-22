@@ -1,0 +1,42 @@
+{
+  "name": "console-network",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Console Network monorepo: @twobitedd/console-network package, demo app, registry, and CI tooling.",
+  "type": "module",
+  "workspaces": [
+    "package",
+    "examples/demo"
+  ],
+  "scripts": {
+    "build": "npm run build:console && npm run build:demo",
+    "build:console": "npm --workspace @twobitedd/console-network run build",
+    "build:demo": "npm --workspace console-network-demo run build",
+    "dev:console": "npm --workspace @twobitedd/console-network run dev",
+    "dev:demo": "npm --workspace console-network-demo run dev",
+    "lint": "eslint . && npm --workspace @twobitedd/console-network run lint",
+    "test": "npm run test:network",
+    "test:network": "npm run build:console && node --test test/*.test.mjs",
+    "registry:validate": "node scripts/validate-registry.mjs",
+    "registry:build": "node scripts/build-registry.mjs",
+    "registry:check": "node scripts/build-registry.mjs --check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/twobitEDD/console-network.git"
+  },
+  "bugs": {
+    "url": "https://github.com/twobitEDD/console-network/issues"
+  },
+  "homepage": "https://github.com/twobitEDD/console-network#readme",
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.4.0"
+  }
+}

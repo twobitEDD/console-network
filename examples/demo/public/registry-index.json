@@ -1,0 +1,54 @@
+{
+  "generatedAt": "2026-04-22T04:05:46.225Z",
+  "version": 1,
+  "themes": [
+    {
+      "id": "noxcruiser",
+      "slug": "noxcruiser",
+      "name": "Noxcruiser",
+      "author": "twobitEDD",
+      "authorUrl": "https://github.com/twobitEDD",
+      "version": "0.1.0",
+      "license": "MIT",
+      "description": "The default salvage-rig skin: slate plastic, cyan phosphor, warm CRT glow.",
+      "tags": [
+        "default",
+        "dark",
+        "cyan",
+        "crt"
+      ],
+      "homepage": "https://github.com/twobitEDD/console-network",
+      "repo": "https://github.com/twobitEDD/console-network",
+      "status": "active",
+      "css": "https://raw.githubusercontent.com/twobitEDD/console-network/main/registry/themes/noxcruiser/theme.css",
+      "preview": null
+    }
+  ],
+  "projects": [
+    {
+      "id": "super-tic-tac-toe",
+      "slug": "super-tic-tac-toe",
+      "name": "Super Tic-Tac-Toe",
+      "owner": "twobitEDD",
+      "ownerUrl": "https://github.com/twobitEDD",
+      "url": "https://github.com/twobitEDD/super-tic-tac-toe-site",
+      "repo": "https://github.com/twobitEDD/super-tic-tac-toe-site",
+      "license": "MIT",
+      "description": "Nested 3×3 tic-tac-toe where the last move dictates which sub-board you play next. Runs inside the Noxcruiser rig.",
+      "longDescription": null,
+      "tags": [
+        "game",
+        "strategy",
+        "pvp"
+      ],
+      "chainIds": [],
+      "category": "game",
+      "requiresWallet": false,
+      "usesConsoleNetwork": true,
+      "social": null,
+      "status": "active",
+      "cover": null,
+      "icon": null
+    }
+  ]
+}

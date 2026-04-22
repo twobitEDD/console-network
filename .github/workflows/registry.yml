@@ -1,0 +1,43 @@
+name: Registry
+
+on:
+  pull_request:
+    paths:
+      - "registry/**"
+      - "scripts/registry-lib.mjs"
+      - "scripts/validate-registry.mjs"
+      - "scripts/build-registry.mjs"
+      - ".github/workflows/registry.yml"
+  push:
+    branches: [main]
+    paths:
+      - "registry/**"
+      - "scripts/registry-lib.mjs"
+      - "scripts/validate-registry.mjs"
+      - "scripts/build-registry.mjs"
+
+jobs:
+  validate:
+    name: Validate registry
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate every manifest against its schema
+        run: node scripts/validate-registry.mjs
+
+      - name: Ensure registry/index.json is up to date
+        run: node scripts/build-registry.mjs --check
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "### Registry status" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f registry/index.json ]; then
+            node -e "const i = require('./registry/index.json'); console.log(\`Themes: \${i.themes.length}\`); console.log(\`Projects: \${i.projects.length}\`)" >> "$GITHUB_STEP_SUMMARY"
+          fi
