@@ -1,7 +1,29 @@
 {
-  "generatedAt": "2026-04-22T04:05:46.225Z",
+  "generatedAt": "2026-04-22T05:21:52.117Z",
   "version": 1,
   "themes": [
+    {
+      "id": "essential",
+      "slug": "essential",
+      "name": "Essential",
+      "author": "twobitEDD",
+      "authorUrl": "https://github.com/twobitEDD",
+      "version": "0.1.0",
+      "license": "MIT",
+      "description": "A clean paper-white companion to Noxcruiser. Graphite phosphor on a bone-white chassis — daytime rig, print-safe, high legibility.",
+      "tags": [
+        "light",
+        "minimal",
+        "essential",
+        "paper",
+        "daytime"
+      ],
+      "homepage": "https://github.com/twobitEDD/console-network",
+      "repo": "https://github.com/twobitEDD/console-network",
+      "status": "active",
+      "css": "https://raw.githubusercontent.com/twobitEDD/console-network/main/registry/themes/essential/theme.css",
+      "preview": null
+    },
     {
       "id": "noxcruiser",
       "slug": "noxcruiser",
