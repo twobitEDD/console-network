@@ -1,0 +1,21 @@
+/*
+ * Essential — the paper-white counterpart to Noxcruiser.
+ *
+ * A deliberately reduced palette: bone-white chassis, graphite phosphor,
+ * soft slate shadows. Intended for daytime use, accessibility review, and
+ * print-capture workflows where the CRT bloom of the default rig is noise.
+ *
+ * Only --holo-* custom properties are overridden; the rig geometry is
+ * untouched, so Essential can be swapped live with any other theme.
+ */
+.console-theme-essential {
+  --holo-plastic: #f5f3ee;
+  --holo-plastic-hi: #ffffff;
+  --holo-plastic-lo: #e4e1d9;
+
+  --holo-warning: #334155;
+  --holo-phosphor: rgba(51, 65, 85, 0.26);
+
+  --holo-rig-border: rgba(15, 23, 42, 0.18);
+  --holo-rig-shadow-glow: rgba(15, 23, 42, 0.06);
+}
