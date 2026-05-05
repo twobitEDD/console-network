@@ -8,7 +8,7 @@ import eslintConfigPrettier from "eslint-config-prettier";
 export default [
   {
     ignores: [
-      "dist/**",
+      "**/dist/**",
       "coverage/**",
       "node_modules/**",
       "server/node_modules/**",

@@ -1,4 +1,4 @@
-import { createContext, useContext, useId, useLayoutEffect, useRef } from "react";
+import { createContext, useContext, useId, useLayoutEffect, useMemo, useRef } from "react";
 
 /**
  * Slot-registration system. Modules project content into the console's four
@@ -20,8 +20,9 @@ import { createContext, useContext, useId, useLayoutEffect, useRef } from "react
 const SlotContext = createContext(null);
 
 export function ConsoleSlotProvider({ register, unregister, children }) {
+  const value = useMemo(() => ({ register, unregister }), [register, unregister]);
   return (
-    <SlotContext.Provider value={{ register, unregister }}>
+    <SlotContext.Provider value={value}>
       {children}
     </SlotContext.Provider>
   );

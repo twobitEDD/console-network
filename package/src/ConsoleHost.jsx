@@ -1,17 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import HoloFrameConsole from "./HoloFrameConsole.jsx";
 import { useConsoleChannels } from "./useConsoleChannels.js";
 import { derivePlate } from "./contracts.js";
 import { ConsoleSlotProvider } from "./ConsoleSlots.jsx";
 import ConnectionsPanel from "./ConnectionsPanel.jsx";
-
-const EMPTY_SLOTS = Object.freeze({
-  viewport: {},
-  left: {},
-  right: {},
-  center: {},
-  bottom: {},
-});
+import { createConsoleSlotStore } from "./consoleSlotStore.js";
 
 /**
  * <ConsoleHost/>
@@ -72,25 +65,17 @@ export default function ConsoleHost({
     [identity, chain, channels.api, translate, emit],
   );
 
-  const [slots, setSlots] = useState(EMPTY_SLOTS);
   const [connectionsOpen, setConnectionsOpen] = useState(false);
 
+  const [slotStore] = useState(() => createConsoleSlotStore());
+
   const register = useCallback((channel, key, node) => {
-    setSlots((prev) => {
-      const prevChannel = prev[channel] ?? {};
-      if (prevChannel[key] === node) return prev;
-      return { ...prev, [channel]: { ...prevChannel, [key]: node } };
-    });
-  }, []);
+    slotStore.register(channel, key, node);
+  }, [slotStore]);
+
   const unregister = useCallback((channel, key) => {
-    setSlots((prev) => {
-      const prevChannel = prev[channel];
-      if (!prevChannel || !(key in prevChannel)) return prev;
-      const nextChannel = { ...prevChannel };
-      delete nextChannel[key];
-      return { ...prev, [channel]: nextChannel };
-    });
-  }, []);
+    slotStore.unregister(channel, key);
+  }, [slotStore]);
 
   const ModuleComponent = module.Component;
 
@@ -99,13 +84,6 @@ export default function ConsoleHost({
     const teardown = module.onMount(api);
     return typeof teardown === "function" ? teardown : undefined;
   }, [module, api]);
-
-  const renderChannel = (channel) => {
-    const entries = slots[channel];
-    if (!entries) return null;
-    const values = Object.values(entries);
-    return values.length ? values : null;
-  };
 
   const { state, set } = channels;
 
@@ -134,38 +112,64 @@ export default function ConsoleHost({
           />
         </>
       )}
-      <HoloFrameConsole
-        plateId={plate.plateId}
-        plateRev={plate.plateRev}
-        caption={plate.caption}
-        sticker={plate.sticker}
-        rigAria={labels.rigAria ?? translate("consoleNetwork.rigAria", plate.caption)}
-        viewport={renderChannel("viewport")}
-        leftChannel={renderChannel("left")}
-        rightChannel={renderChannel("right")}
-        centerChannel={renderChannel("center")}
-        bottomChannel={renderChannel("bottom")}
-        displayOn={state.power}
-        onDisplayToggle={(next) => set.setPower(next)}
-        engageLabel={labels.engage ?? translate("consoleNetwork.engage", "ENGAGE")}
-        standbyLabel={labels.standby ?? translate("consoleNetwork.standby", "STANDBY")}
-        leftToggleLabel={labels.leftToggle ?? translate("consoleNetwork.leftToggle", "α")}
-        rightToggleLabel={labels.rightToggle ?? translate("consoleNetwork.rightToggle", "β")}
-        centerToggleLabel={labels.centerToggle ?? translate("consoleNetwork.centerToggle", "MODAL")}
-        bottomToggleLabel={labels.bottomToggle ?? translate("consoleNetwork.bottomToggle", "HUD")}
-        leftToggleAria={labels.leftToggleAria ?? "Toggle α rail"}
-        rightToggleAria={labels.rightToggleAria ?? "Toggle β rail"}
-        centerToggleAria={labels.centerToggleAria ?? "Toggle center modal"}
-        bottomToggleAria={labels.bottomToggleAria ?? "Toggle HUD"}
-        leftOpen={state.leftOpen}
-        onLeftOpenChange={(next) => set.setLeft(next)}
-        rightOpen={state.rightOpen}
-        onRightOpenChange={(next) => set.setRight(next)}
-        centerOpen={state.centerOpen}
-        onCenterOpenChange={(next) => set.setCenter(next)}
-        bottomOpen={state.bottomOpen}
-        onBottomOpenChange={(next) => set.setBottom(next)}
+      <HoloShellFromSlots
+        slotStore={slotStore}
+        plate={plate}
+        labels={labels}
+        translate={translate}
+        channels={{ state, set }}
       />
     </ConsoleSlotProvider>
+  );
+}
+
+/** Subscribes to slot mutations without forcing {@link ConsoleHost} (or the module) to re-render. */
+function HoloShellFromSlots({ slotStore, plate, labels, translate, channels: { state, set } }) {
+  const slots = useSyncExternalStore(
+    slotStore.subscribe,
+    slotStore.getSnapshot,
+    slotStore.getSnapshot,
+  );
+
+  const renderChannel = (channel) => {
+    const entries = slots[channel];
+    if (!entries) return null;
+    const values = Object.values(entries);
+    return values.length ? values : null;
+  };
+
+  return (
+    <HoloFrameConsole
+      plateId={plate.plateId}
+      plateRev={plate.plateRev}
+      caption={plate.caption}
+      sticker={plate.sticker}
+      rigAria={labels.rigAria ?? translate("consoleNetwork.rigAria", plate.caption)}
+      viewport={renderChannel("viewport")}
+      leftChannel={renderChannel("left")}
+      rightChannel={renderChannel("right")}
+      centerChannel={renderChannel("center")}
+      bottomChannel={renderChannel("bottom")}
+      displayOn={state.power}
+      onDisplayToggle={(next) => set.setPower(next)}
+      engageLabel={labels.engage ?? translate("consoleNetwork.engage", "ENGAGE")}
+      standbyLabel={labels.standby ?? translate("consoleNetwork.standby", "STANDBY")}
+      leftToggleLabel={labels.leftToggle ?? translate("consoleNetwork.leftToggle", "α")}
+      rightToggleLabel={labels.rightToggle ?? translate("consoleNetwork.rightToggle", "β")}
+      centerToggleLabel={labels.centerToggle ?? translate("consoleNetwork.centerToggle", "MODAL")}
+      bottomToggleLabel={labels.bottomToggle ?? translate("consoleNetwork.bottomToggle", "HUD")}
+      leftToggleAria={labels.leftToggleAria ?? "Toggle α rail"}
+      rightToggleAria={labels.rightToggleAria ?? "Toggle β rail"}
+      centerToggleAria={labels.centerToggleAria ?? "Toggle center modal"}
+      bottomToggleAria={labels.bottomToggleAria ?? "Toggle HUD"}
+      leftOpen={state.leftOpen}
+      onLeftOpenChange={(next) => set.setLeft(next)}
+      rightOpen={state.rightOpen}
+      onRightOpenChange={(next) => set.setRight(next)}
+      centerOpen={state.centerOpen}
+      onCenterOpenChange={(next) => set.setCenter(next)}
+      bottomOpen={state.bottomOpen}
+      onBottomOpenChange={(next) => set.setBottom(next)}
+    />
   );
 }
