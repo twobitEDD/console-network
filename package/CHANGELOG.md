@@ -5,6 +5,14 @@ All notable changes to `@twobitedd/console-network` are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.2] - 2026-05-05
+
+### Fixed
+- **Crash on load (React #185):** Slot registration no longer drives `setState` on `ConsoleHost`. Slot maps live in a small external store; `HoloShellFromSlots` subscribes with `useSyncExternalStore`, so updating projected slot content does not re-render the game module in the same synchronous layout pass. This removes the max-update-depth loop triggered when slot children are new element references every render (common with inline JSX) combined with `useLayoutEffect` registration.
+- **`ConsoleSlotProvider`:** Context value is memoized so `register` / `unregister` references stay stable across unrelated host re-renders.
+
+[0.1.2]: https://github.com/twobitEDD/console-network/releases/tag/v0.1.2
+
 ## [0.1.1] - 2026-05-05
 
 ### Fixed / performance
