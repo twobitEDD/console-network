@@ -40,12 +40,12 @@ export default function ConnectionsPanel({
   const [error, setError]       = useState(null);
   const [query, setQuery]       = useState("");
   const [activeTag, setTag]     = useState(null);
-  const [trackedUrl, setTrackedUrl] = useState(registryUrl);
   const dialogRef               = useRef(null);
 
-  /* If the URL changed, drop the cached result during render. React docs pattern. */
-  if (trackedUrl !== registryUrl) {
-    setTrackedUrl(registryUrl);
+  /* Reset fetch cache when registryUrl changes (during render; avoids setState-in-effect lint). */
+  const [registrySnapshot, setRegistrySnapshot] = useState(registryUrl);
+  if (registryUrl !== registrySnapshot) {
+    setRegistrySnapshot(registryUrl);
     setData(null);
     setError(null);
   }
