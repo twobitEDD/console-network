@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useId } from "react";
+import { createContext, useContext, useId, useLayoutEffect, useRef } from "react";
 
 /**
  * Slot-registration system. Modules project content into the console's four
@@ -30,10 +30,18 @@ export function ConsoleSlotProvider({ register, unregister, children }) {
 function useSlot(channel, node) {
   const ctx = useContext(SlotContext);
   const key = useId();
-  useEffect(() => {
+  const nodeRef = useRef(node);
+  nodeRef.current = node;
+
+  useLayoutEffect(() => {
     if (!ctx) return undefined;
-    ctx.register(channel, key, node);
+    ctx.register(channel, key, nodeRef.current);
     return () => ctx.unregister(channel, key);
+  }, [ctx, channel, key]);
+
+  useLayoutEffect(() => {
+    if (!ctx) return undefined;
+    ctx.register(channel, key, nodeRef.current);
   }, [ctx, channel, key, node]);
 }
 

@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 /**
  * Salvage-rig holo shell: full-bleed game viewport with optional overlays
@@ -44,6 +44,8 @@ export default function HoloFrameConsole({
   footerDecorRight = null,
 }) {
   const lensRef = useRef(null);
+  const parallaxRafRef = useRef(0);
+  const parallaxPendingRef = useRef(null);
   const [iLeft, setILeft] = useState(false);
   const [iRight, setIRight] = useState(false);
   const [iCenter, setICenter] = useState(false);
@@ -99,23 +101,49 @@ export default function HoloFrameConsole({
       if (!parallaxEnabled) {
         return;
       }
-      const el = lensRef.current;
-      if (!el) {
+      const target = lensRef.current;
+      if (!target) {
         return;
       }
-      const rect = el.getBoundingClientRect();
-      const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      const y = ((event.clientY - rect.top) / rect.height) * 2 - 1;
-      el.style.setProperty("--edd-px", x.toFixed(4));
-      el.style.setProperty("--edd-py", y.toFixed(4));
+      parallaxPendingRef.current = { clientX: event.clientX, clientY: event.clientY };
+      if (parallaxRafRef.current) {
+        return;
+      }
+      parallaxRafRef.current = requestAnimationFrame(() => {
+        parallaxRafRef.current = 0;
+        const el = lensRef.current;
+        const pending = parallaxPendingRef.current;
+        if (!el || !pending) {
+          return;
+        }
+        const rect = el.getBoundingClientRect();
+        const x = ((pending.clientX - rect.left) / rect.width) * 2 - 1;
+        const y = ((pending.clientY - rect.top) / rect.height) * 2 - 1;
+        el.style.setProperty("--edd-px", x.toFixed(4));
+        el.style.setProperty("--edd-py", y.toFixed(4));
+      });
     },
     [parallaxEnabled],
   );
 
   const onLensPointerLeave = useCallback(() => {
+    parallaxPendingRef.current = null;
+    if (parallaxRafRef.current) {
+      cancelAnimationFrame(parallaxRafRef.current);
+      parallaxRafRef.current = 0;
+    }
     lensRef.current?.style.setProperty("--edd-px", "0");
     lensRef.current?.style.setProperty("--edd-py", "0");
   }, []);
+
+  useEffect(
+    () => () => {
+      if (parallaxRafRef.current) {
+        cancelAnimationFrame(parallaxRafRef.current);
+      }
+    },
+    [],
+  );
 
   const hasLeft = Boolean(leftChannel);
   const hasRight = Boolean(rightChannel);

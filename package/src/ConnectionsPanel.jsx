@@ -43,12 +43,12 @@ export default function ConnectionsPanel({
   const [trackedUrl, setTrackedUrl] = useState(registryUrl);
   const dialogRef               = useRef(null);
 
-  /* If the URL changed, drop the cached result during render. React docs pattern. */
-  if (trackedUrl !== registryUrl) {
+  useEffect(() => {
+    if (trackedUrl === registryUrl) return undefined;
     setTrackedUrl(registryUrl);
     setData(null);
     setError(null);
-  }
+  }, [trackedUrl, registryUrl]);
 
   const hasLoaded               = data !== null || error !== null;
   const isLoading               = open && !hasLoaded;
