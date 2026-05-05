@@ -42,10 +42,13 @@ export default function ConnectionsPanel({
   const [activeTag, setTag]     = useState(null);
   const dialogRef               = useRef(null);
 
-  useEffect(() => {
+  /* Reset fetch cache when registryUrl changes (during render; avoids setState-in-effect lint). */
+  const [registrySnapshot, setRegistrySnapshot] = useState(registryUrl);
+  if (registryUrl !== registrySnapshot) {
+    setRegistrySnapshot(registryUrl);
     setData(null);
     setError(null);
-  }, [registryUrl]);
+  }
 
   const hasLoaded               = data !== null || error !== null;
   const isLoading               = open && !hasLoaded;
