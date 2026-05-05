@@ -31,7 +31,10 @@ function useSlot(channel, node) {
   const ctx = useContext(SlotContext);
   const key = useId();
   const nodeRef = useRef(node);
-  nodeRef.current = node;
+
+  useLayoutEffect(() => {
+    nodeRef.current = node;
+  }, [node]);
 
   useLayoutEffect(() => {
     if (!ctx) return undefined;

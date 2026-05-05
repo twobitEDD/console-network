@@ -40,15 +40,12 @@ export default function ConnectionsPanel({
   const [error, setError]       = useState(null);
   const [query, setQuery]       = useState("");
   const [activeTag, setTag]     = useState(null);
-  const [trackedUrl, setTrackedUrl] = useState(registryUrl);
   const dialogRef               = useRef(null);
 
   useEffect(() => {
-    if (trackedUrl === registryUrl) return undefined;
-    setTrackedUrl(registryUrl);
     setData(null);
     setError(null);
-  }, [trackedUrl, registryUrl]);
+  }, [registryUrl]);
 
   const hasLoaded               = data !== null || error !== null;
   const isLoading               = open && !hasLoaded;
