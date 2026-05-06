@@ -1,0 +1,18 @@
+{
+  "id": "violet-frequencies",
+  "slug": "violet-frequencies",
+  "name": "Violet Frequencies",
+  "author": "twobitEDD",
+  "authorUrl": "https://github.com/twobitEDD",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "Synth arcade violet hull with hot magenta phosphor readouts.",
+  "tags": ["dark", "purple", "neon", "arcade"],
+  "files": {
+    "css": "theme.css",
+    "readme": "README.md"
+  },
+  "homepage": "https://github.com/twobitEDD/console-network",
+  "repo": "https://github.com/twobitEDD/console-network",
+  "status": "active"
+}

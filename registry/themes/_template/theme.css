@@ -1,13 +1,13 @@
 /*
  * My Theme — minimal example theme.
  *
- * Scope every variable under .console-theme-my-theme so consumers can opt in
- * with <ConsoleHost theme="my-theme" /> (which adds the class to the rig).
+ * Override `--holo-*` under `.console-theme-my-theme .edd-holo-rig` so tokens beat
+ * the package `:where(.edd-holo-rig)` baseline. Wrap `<ConsoleHost />` in a div
+ * with `className="console-theme-my-theme"` (or put that class on an ancestor).
  *
- * Only --holo-* variables are respected by the rig. Don't target rig elements
- * directly — it will break on theme swap.
+ * Don't target rig elements directly — only custom properties.
  */
-.console-theme-my-theme {
+.console-theme-my-theme .edd-holo-rig {
   --holo-plastic: #0a0f1f;
   --holo-plastic-hi: #1a2340;
   --holo-plastic-lo: #050811;

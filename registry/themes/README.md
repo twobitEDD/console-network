@@ -10,4 +10,6 @@ Recommended files:
 - `preview.png` — 960×600, shows the theme applied to a rig
 - `README.md` — credits, design notes
 
+Shipping examples in this repo: **noxcruiser**, **essential**, **bramble-stack**, **emerald-hauler**, **violet-frequencies**, **arctic-relay**.
+
 See `_template/` for a minimal starting point.

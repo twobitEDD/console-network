@@ -1,0 +1,18 @@
+{
+  "id": "emerald-hauler",
+  "slug": "emerald-hauler",
+  "name": "Emerald Hauler",
+  "author": "twobitEDD",
+  "authorUrl": "https://github.com/twobitEDD",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "Pressure-tested teal plastics with neon emerald CRT bloom.",
+  "tags": ["dark", "green", "crt", "scifi"],
+  "files": {
+    "css": "theme.css",
+    "readme": "README.md"
+  },
+  "homepage": "https://github.com/twobitEDD/console-network",
+  "repo": "https://github.com/twobitEDD/console-network",
+  "status": "active"
+}

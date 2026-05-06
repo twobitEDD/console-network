@@ -1,0 +1,18 @@
+{
+  "id": "arctic-relay",
+  "slug": "arctic-relay",
+  "name": "Arctic Relay",
+  "author": "twobitEDD",
+  "authorUrl": "https://github.com/twobitEDD",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "Cold slate telemetry rig with ice-blue CRT bloom.",
+  "tags": ["dark", "blue", "cold", "clinical"],
+  "files": {
+    "css": "theme.css",
+    "readme": "README.md"
+  },
+  "homepage": "https://github.com/twobitEDD/console-network",
+  "repo": "https://github.com/twobitEDD/console-network",
+  "status": "active"
+}

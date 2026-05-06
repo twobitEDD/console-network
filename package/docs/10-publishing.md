@@ -25,7 +25,7 @@ A 5-minute path from idea to merged. Both paths run the same CI checks; both end
      "status": "active"
    }
    ```
-4. **Write `theme.css`.** Only override `--holo-*` variables. Scope everything under `.console-theme-my-theme` so themes can coexist on the same page. Keep it under 8 kB. No `@import`. No remote URLs.
+4. **Write `theme.css`.** Only override `--holo-*` variables. Scope selectors under `.console-theme-my-theme .edd-holo-rig` (wrapper class + rig) so tokens beat the package `:where(.edd-holo-rig)` baseline and themes can coexist. Keep it under 8 kB. No `@import`. No remote URLs.
 5. **Optionally** add `preview.png` (960×600) and reference it in `files.preview`. Themes without previews still work but won't show in the built-in picker.
 6. **Regenerate the index:**
    ```bash

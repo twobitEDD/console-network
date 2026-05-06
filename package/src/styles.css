@@ -239,24 +239,11 @@
   user-select: none;
   -webkit-user-select: none;
   cursor: default;
-  transition:
-    border-color 0.22s ease,
-    box-shadow 0.22s ease,
-    filter 0.22s ease,
-    transform 0.14s ease;
 }
 
 .edd-holo-rig__rail--left {
   opacity: 0.92;
   transform: translateY(2px);
-}
-
-.edd-holo-rig__rail--left:active {
-  transform: translateY(3px) scale(0.988);
-}
-
-.edd-holo-rig__rail--right:active {
-  transform: scale(0.988);
 }
 
 .edd-holo-rig__rail--right {
@@ -279,13 +266,21 @@
   opacity: 0.75;
   cursor: default;
   transition:
-    opacity 0.2s ease,
-    filter 0.2s ease,
-    transform 0.14s ease;
+    opacity 0.18s ease,
+    filter 0.18s ease,
+    transform 0.12s ease,
+    box-shadow 0.18s ease;
 }
 
-.edd-holo-rig__rail:active .edd-holo-rig__ticks {
-  transform: scaleY(0.985);
+.edd-holo-rig__ticks:hover {
+  opacity: 0.94;
+  filter: contrast(1.14) brightness(1.07);
+  box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.22);
+}
+
+.edd-holo-rig__ticks:active {
+  transform: scaleY(0.986);
+  filter: contrast(1.08) brightness(1.04);
 }
 
 .edd-holo-rig__led-column {
@@ -310,8 +305,15 @@
     transform 0.14s ease;
 }
 
-.edd-holo-rig__rail:active .edd-holo-rig__led {
-  transform: scale(0.94);
+.edd-holo-rig__led:hover {
+  opacity: 1;
+  filter: brightness(1.26);
+  box-shadow: 0 0 10px var(--holo-led-glow), 0 0 0 1px rgba(0, 0, 0, 0.52) inset;
+}
+
+.edd-holo-rig__led:active {
+  transform: scale(0.9);
+  filter: brightness(1.1);
 }
 
 .edd-holo-rig__led:nth-child(3n) {
@@ -426,27 +428,7 @@
   margin-top: 0.12rem;
 }
 
-.edd-holo-rig__rail:hover {
-  filter: brightness(1.045);
-  border-color: rgba(251, 191, 36, 0.32);
-}
-
-.edd-holo-rig__rail--right:hover {
-  border-color: rgba(167, 243, 208, 0.28);
-}
-
-.edd-holo-rig__rail:hover .edd-holo-rig__ticks {
-  opacity: 0.92;
-  filter: contrast(1.08);
-}
-
-.edd-holo-rig__rail:hover .edd-holo-rig__led {
-  filter: brightness(1.18);
-  box-shadow: 0 0 7px var(--holo-led-glow), 0 0 0 1px rgba(0, 0, 0, 0.55) inset;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .edd-holo-rig__rail,
   .edd-holo-rig__ticks,
   .edd-holo-rig__led,
   .edd-holo-rig__vents,
@@ -477,13 +459,14 @@
     transform 0.14s ease;
 }
 
-.edd-holo-rig__rail--right:hover .edd-holo-rig__vents {
+.edd-holo-rig__vents:hover {
   opacity: 0.98;
-  filter: contrast(1.08) brightness(1.04);
+  filter: contrast(1.12) brightness(1.08);
+  box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.28);
 }
 
-.edd-holo-rig__rail--right:active .edd-holo-rig__vents {
-  transform: scaleY(0.97);
+.edd-holo-rig__vents:active {
+  transform: scaleY(0.972);
 }
 
 .edd-holo-rig__screws {
@@ -504,8 +487,8 @@
     filter 0.14s ease;
 }
 
-.edd-holo-rig__rail--right:hover .edd-holo-rig__screws span {
-  filter: brightness(1.18);
+.edd-holo-rig__screws span:hover {
+  filter: brightness(1.22);
 }
 
 .edd-holo-rig__screws span:active {

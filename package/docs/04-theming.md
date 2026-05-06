@@ -5,7 +5,7 @@ Every color in the rig flows through CSS custom properties prefixed `--holo-*`. 
 ## Minimal theme
 
 ```css
-.my-retro-console {
+.my-retro-console .edd-holo-rig {
   --holo-plastic: #2a2118;
   --holo-plastic-hi: #3b2f22;
   --holo-plastic-lo: #150f09;
@@ -15,6 +15,8 @@ Every color in the rig flows through CSS custom properties prefixed `--holo-*`. 
   --holo-glass-viewport-on-shadow: inset 0 0 0 1px rgba(249, 115, 22, 0.35);
 }
 ```
+
+Tokens must apply under **`.edd-holo-rig`** (not only on a wrapper) so they override the package `:where(.edd-holo-rig)` defaults.
 
 ```jsx
 <div className="my-retro-console" style={{ height: "100dvh" }}>

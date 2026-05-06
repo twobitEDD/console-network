@@ -1,7 +1,92 @@
 {
-  "generatedAt": "2026-04-22T04:05:46.225Z",
+  "generatedAt": "2026-05-06T19:35:51.554Z",
   "version": 1,
   "themes": [
+    {
+      "id": "arctic-relay",
+      "slug": "arctic-relay",
+      "name": "Arctic Relay",
+      "author": "twobitEDD",
+      "authorUrl": "https://github.com/twobitEDD",
+      "version": "0.1.0",
+      "license": "MIT",
+      "description": "Cold slate telemetry rig with ice-blue CRT bloom.",
+      "tags": [
+        "dark",
+        "blue",
+        "cold",
+        "clinical"
+      ],
+      "homepage": "https://github.com/twobitEDD/console-network",
+      "repo": "https://github.com/twobitEDD/console-network",
+      "status": "active",
+      "css": "/registry-themes/arctic-relay/theme.css",
+      "preview": null
+    },
+    {
+      "id": "bramble-stack",
+      "slug": "bramble-stack",
+      "name": "Bramble Stack",
+      "author": "twobitEDD",
+      "authorUrl": "https://github.com/twobitEDD",
+      "version": "0.1.0",
+      "license": "MIT",
+      "description": "Industrial salvage rust chassis with amber-orange CRT accents.",
+      "tags": [
+        "dark",
+        "warm",
+        "orange",
+        "industrial"
+      ],
+      "homepage": "https://github.com/twobitEDD/console-network",
+      "repo": "https://github.com/twobitEDD/console-network",
+      "status": "active",
+      "css": "/registry-themes/bramble-stack/theme.css",
+      "preview": null
+    },
+    {
+      "id": "emerald-hauler",
+      "slug": "emerald-hauler",
+      "name": "Emerald Hauler",
+      "author": "twobitEDD",
+      "authorUrl": "https://github.com/twobitEDD",
+      "version": "0.1.0",
+      "license": "MIT",
+      "description": "Pressure-tested teal plastics with neon emerald CRT bloom.",
+      "tags": [
+        "dark",
+        "green",
+        "crt",
+        "scifi"
+      ],
+      "homepage": "https://github.com/twobitEDD/console-network",
+      "repo": "https://github.com/twobitEDD/console-network",
+      "status": "active",
+      "css": "/registry-themes/emerald-hauler/theme.css",
+      "preview": null
+    },
+    {
+      "id": "essential",
+      "slug": "essential",
+      "name": "Essential",
+      "author": "twobitEDD",
+      "authorUrl": "https://github.com/twobitEDD",
+      "version": "0.1.0",
+      "license": "MIT",
+      "description": "A clean paper-white companion to Noxcruiser. Graphite phosphor on a bone-white chassis — daytime rig, print-safe, high legibility.",
+      "tags": [
+        "light",
+        "minimal",
+        "essential",
+        "paper",
+        "daytime"
+      ],
+      "homepage": "https://github.com/twobitEDD/console-network",
+      "repo": "https://github.com/twobitEDD/console-network",
+      "status": "active",
+      "css": "/registry-themes/essential/theme.css",
+      "preview": null
+    },
     {
       "id": "noxcruiser",
       "slug": "noxcruiser",
@@ -20,7 +105,28 @@
       "homepage": "https://github.com/twobitEDD/console-network",
       "repo": "https://github.com/twobitEDD/console-network",
       "status": "active",
-      "css": "https://raw.githubusercontent.com/twobitEDD/console-network/main/registry/themes/noxcruiser/theme.css",
+      "css": "/registry-themes/noxcruiser/theme.css",
+      "preview": null
+    },
+    {
+      "id": "violet-frequencies",
+      "slug": "violet-frequencies",
+      "name": "Violet Frequencies",
+      "author": "twobitEDD",
+      "authorUrl": "https://github.com/twobitEDD",
+      "version": "0.1.0",
+      "license": "MIT",
+      "description": "Synth arcade violet hull with hot magenta phosphor readouts.",
+      "tags": [
+        "dark",
+        "purple",
+        "neon",
+        "arcade"
+      ],
+      "homepage": "https://github.com/twobitEDD/console-network",
+      "repo": "https://github.com/twobitEDD/console-network",
+      "status": "active",
+      "css": "/registry-themes/violet-frequencies/theme.css",
       "preview": null
     }
   ],

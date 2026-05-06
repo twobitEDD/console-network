@@ -11,9 +11,9 @@
   "scripts": {
     "build": "npm run build:console && npm run build:demo",
     "build:console": "npm --workspace @twobitedd/console-network run build",
-    "build:demo": "npm --workspace console-network-demo run build",
+    "build:demo": "node scripts/sync-demo-registry.mjs && npm --workspace console-network-demo run build",
     "dev:console": "npm --workspace @twobitedd/console-network run dev",
-    "dev:demo": "npm --workspace console-network-demo run dev",
+    "dev:demo": "node scripts/sync-demo-registry.mjs && npm --workspace console-network-demo run dev",
     "lint": "eslint . && npm --workspace @twobitedd/console-network run lint",
     "test": "npm run test:network",
     "test:network": "npm run build:console && node --test test/*.test.mjs",
@@ -21,7 +21,8 @@
     "release:check": "npm run lint && npm run build && node --test test/*.test.mjs && npm run registry:check",
     "registry:validate": "node scripts/validate-registry.mjs",
     "registry:build": "node scripts/build-registry.mjs",
-    "registry:check": "node scripts/build-registry.mjs --check"
+    "registry:check": "node scripts/build-registry.mjs --check",
+    "registry:sync-demo": "node scripts/sync-demo-registry.mjs"
   },
   "repository": {
     "type": "git",
