@@ -333,6 +333,11 @@
   .edd-holo-glass {
     --edd-glass-dur: 0.01ms;
   }
+
+  /* ConsoleHost `respectReducedMotion={false}` opts back into full chrome motion */
+  .edd-holo-rig--effects-full .edd-holo-glass {
+    --edd-glass-dur: 0.55s;
+  }
 }
 
 .edd-holo-glass__lens {
@@ -1116,3 +1121,21 @@
   box-shadow: 0 0 8px var(--holo-warning, #22d3ee);
 }
 .holo-connections-trigger__label { font-weight: 600; }
+
+/* ---------- Motion profiles (ConsoleHost effects / a11y) ---------- */
+.edd-holo-rig--effects-lite .edd-holo-glass {
+  --edd-glass-dur: 0.01ms;
+}
+
+.edd-holo-rig--effects-lite .holo-overlay {
+  transition-duration: 0.01ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .holo-connections-trigger {
+    transition-duration: 0.01ms;
+  }
+  .holo-connections-trigger:hover {
+    transform: none;
+  }
+}

@@ -41,9 +41,25 @@ export function useConsoleChannels(initial = {}) {
     }
   }, []);
 
+  const state = useMemo(
+    () => ({ leftOpen, rightOpen, centerOpen, bottomOpen, power }),
+    [leftOpen, rightOpen, centerOpen, bottomOpen, power],
+  );
+
+  const set = useMemo(
+    () => ({
+      setLeft: (next) => setLeft(Boolean(next)),
+      setRight: (next) => setRight(Boolean(next)),
+      setCenter: (next) => setCenter(Boolean(next)),
+      setBottom: (next) => setBottom(Boolean(next)),
+      setPower: (next) => setPower(Boolean(next)),
+    }),
+    [],
+  );
+
   return {
-    state: { leftOpen, rightOpen, centerOpen, bottomOpen, power },
-    set: { setLeft, setRight, setCenter, setBottom, setPower },
+    state,
+    set,
     api,
     toggle,
   };

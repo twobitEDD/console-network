@@ -24,6 +24,9 @@ const REQUIRED_NAMES = [
   "defineGameModule",
   "derivePlate",
   "identityFromDynamic",
+  "DEFAULT_CONSOLE_IDENTITY",
+  "pickConsoleIdentityFields",
+  "usePrefersReducedMotion",
 ];
 
 describe("exports", () => {
@@ -47,6 +50,8 @@ describe("exports", () => {
       api.defineGameModule,
       api.derivePlate,
       api.identityFromDynamic,
+      api.pickConsoleIdentityFields,
+      api.usePrefersReducedMotion,
     ];
     for (const fn of mustBeFunction) {
       assert.equal(typeof fn, "function");
@@ -59,5 +64,11 @@ describe("exports", () => {
     assert.equal(api.ConsoleSlots.Right, api.RightSlot);
     assert.equal(api.ConsoleSlots.Center, api.CenterSlot);
     assert.equal(api.ConsoleSlots.Bottom, api.BottomSlot);
+  });
+
+  test("DEFAULT_CONSOLE_IDENTITY is frozen guest defaults", () => {
+    assert.equal(typeof api.DEFAULT_CONSOLE_IDENTITY, "object");
+    assert.ok(Object.isFrozen(api.DEFAULT_CONSOLE_IDENTITY));
+    assert.equal(api.DEFAULT_CONSOLE_IDENTITY.isAuthenticated, false);
   });
 });

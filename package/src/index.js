@@ -10,7 +10,12 @@ export {
 } from "./ConsoleSlots.jsx";
 export { useConsoleChannels } from "./useConsoleChannels.js";
 export { defineGameModule, derivePlate } from "./contracts.js";
+export {
+  DEFAULT_CONSOLE_IDENTITY,
+  pickConsoleIdentityFields,
+} from "./consoleIdentity.js";
 export { identityFromDynamic } from "./dynamic.js";
+export { usePrefersReducedMotion } from "./usePrefersReducedMotion.js";
 export { default as ConnectionsPanel } from "./ConnectionsPanel.jsx";
 export {
   DEFAULT_REGISTRY_URL,

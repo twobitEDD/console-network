@@ -75,8 +75,10 @@
  *   and renders ConsoleSlots.Viewport, ConsoleSlots.Left, etc. to project
  *   content into the console's four channels.
  * @property {(api:ConsoleHostApi) => void|(() => void)=} onMount
- *   Optional side-effect hook called once when the module first mounts in a
- *   host. Useful for telemetry / preloading. May return a teardown fn.
+ *   Optional side-effect hook invoked once per logical module (`module.id`).
+ *   Receives the latest `api` at call time; use the mounted component's `api`
+ *   prop for ongoing identity/session updates — do not rely on `onMount` to
+ *   re-fire when identity changes.
  * @property {{ chainIds?: (number|string)[], requiresWallet?: boolean }=} requires
  *   Declarative requirements the host checks before mount.
  */

@@ -5,6 +5,25 @@ All notable changes to `@twobitedd/console-network` are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.3] - 2026-05-05
+
+### Added
+- **`ConsoleHost` props:** `effects` (`"full"` \| `"lite"`), `respectReducedMotion` (default `true`), and dev-only **`debug`** logging (`NODE_ENV !== "production"`).
+- **`pickConsoleIdentityFields`**, **`DEFAULT_CONSOLE_IDENTITY`**, **`usePrefersReducedMotion`** (exported).
+
+### Changed
+- **Stable `api.identity`:** normalized from primitive identity fields so a fresh provider object per render does not recreate `api` when `handle` / `address` / `isAuthenticated` are unchanged.
+- **Stable `api.chain`:** memoized on `chainId` plus thin bridge fn refs when provided.
+- **Plate derivation:** `derivePlate(module)` memoizes on stable module fields (`id`, `version`, `title`, plate overrides), not the whole `module` reference.
+- **`GameModule.onMount`:** runs once per **`module.id`**; receives latest `api` via ref — rely on `api` props inside your component for live identity updates (contract docs updated).
+- **`useConsoleChannels`:** channel **`state`** and **`set`** snapshots are memoized so subtree comparisons skip needless churn.
+- **`HoloFrameConsole`:** `motionReduced` + `forceFullMotionCss` for lite chrome / opting back into CSS motion when ignoring reduced-motion prefs.
+
+### Documentation
+- Identity memoization, motion props, and WDYR note added to README + `docs/05-identity.md`.
+
+[0.1.3]: https://github.com/twobitEDD/console-network/releases/tag/v0.1.3
+
 ## [0.1.2] - 2026-05-05
 
 ### Fixed

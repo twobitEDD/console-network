@@ -17,6 +17,34 @@ interface ConsoleIdentity {
 
 Modules only read these fields; they should never inspect `extra` unless they *require* a specific provider (in which case they should declare it via `requires`).
 
+## Stable identity references
+
+`<ConsoleHost>` rebuilds `api.identity` with **`pickConsoleIdentityFields`** so the **same session** does not produce a new `api` object just because your wallet hook returned a fresh object literal (`isAuthenticated` / `handle` / `address` compared by value).
+
+You should still **memoize** the object you pass when you can — especially `extra`, `signIn`, and `signOut`, which are compared by reference:
+
+```jsx
+const identity = useMemo(
+  () => ({
+    isAuthenticated,
+    handle,
+    address,
+    extra: dynamicPayload,
+    signIn,
+    signOut,
+  }),
+  [isAuthenticated, handle, address, dynamicPayload, signIn, signOut],
+);
+
+return <ConsoleHost module={myGame} identity={identity} />;
+```
+
+Guest defaults are available as `DEFAULT_CONSOLE_IDENTITY` if you need a stable frozen sentinel elsewhere.
+
+For debugging churn in development, pass **`debug`** on `<ConsoleHost>` (`NODE_ENV !== "production"`) and optionally add [**why-did-you-render**](https://github.com/welldone-software/why-did-you-render) to your app.
+
+Heavy modules can wrap their root component in **`React.memo`** when `api` is stable enough that only local slot state should re-render.
+
 ## Built-in Dynamic.xyz adapter
 
 Dynamic is supported out of the box because the reference host uses it. The package doesn't depend on Dynamic's SDK — you provide the context, the adapter normalizes it:

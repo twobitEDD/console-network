@@ -39,7 +39,10 @@ export default function HoloFrameConsole({
   onCenterOpenChange,
   bottomOpen: controlledBottom,
   onBottomOpenChange,
+  /** Lens parallax (ignored while `motionReduced`) */
   parallaxEnabled = true,
+  motionReduced = false,
+  forceFullMotionCss = false,
   footerDecorLeft = null,
   footerDecorRight = null,
 }) {
@@ -96,9 +99,11 @@ export default function HoloFrameConsole({
     [controlledCenter, onCenterOpenChange],
   );
 
+  const lensParallaxActive = Boolean(parallaxEnabled) && !motionReduced;
+
   const onLensPointerMove = useCallback(
     (event) => {
-      if (!parallaxEnabled) {
+      if (!lensParallaxActive) {
         return;
       }
       const target = lensRef.current;
@@ -123,7 +128,7 @@ export default function HoloFrameConsole({
         el.style.setProperty("--edd-py", y.toFixed(4));
       });
     },
-    [parallaxEnabled],
+    [lensParallaxActive],
   );
 
   const onLensPointerLeave = useCallback(() => {
@@ -151,8 +156,16 @@ export default function HoloFrameConsole({
   const hasBottom = Boolean(bottomChannel);
   const showDeckToggles = hasLeft || hasRight || hasCenter || hasBottom;
 
+  const rigClassName = [
+    "edd-holo-rig holo-console-rig",
+    motionReduced ? "edd-holo-rig--effects-lite" : "",
+    forceFullMotionCss ? "edd-holo-rig--effects-full" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <section className="edd-holo-rig holo-console-rig" aria-label={rigAria ?? caption}>
+    <section className={rigClassName} aria-label={rigAria ?? caption}>
       <div className="edd-holo-rig__top-hazard" aria-hidden="true" />
       {sticker ? (
         <span className="edd-holo-rig__sticker" aria-hidden="true">

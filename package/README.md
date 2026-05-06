@@ -79,6 +79,13 @@ The full docs live in [`docs/`](./docs/README.md):
 | [The registry](./docs/09-registry.md)                          | Public themes + projects, how the CDN works       |
 | [Publishing a theme or project](./docs/10-publishing.md)       | 5-minute PR path to appearing in every console    |
 
+## Host ergonomics (motion & churn)
+
+- **`effects="lite"`** — disables lens parallax and tightens chrome transitions (also stacks with OS reduced motion when `effects="full"`).
+- **`respectReducedMotion`** — defaults to `true`; set **`false`** only if you intentionally override accessibility prefs (the rig adds `edd-holo-rig--effects-full` so packaged CSS can restore motion durations).
+- **`pickConsoleIdentityFields` / `DEFAULT_CONSOLE_IDENTITY`** — helpers for the identity shape; the host already normalizes `handle` / `address` / `isAuthenticated` so `api` stays stable across benign object churn (memoize callbacks / `extra` in your app).
+- **`debug`** — development-only logs when the `module` reference or normalized identity changes; pair with **why-did-you-render** in your repo for deeper traces.
+
 ## Connections panel
 
 Opt-in full-screen modal that lists every project in the public registry. Turn it on by passing `connections` to `ConsoleHost`:

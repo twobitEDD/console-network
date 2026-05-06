@@ -1,6 +1,6 @@
 {
   "name": "@twobitedd/console-network",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Reusable holo-console UI framework for blockchain-powered interactive apps and games. Mount any game module into a standard salvage-rig shell with α/β list rails, a center MODAL, and a bottom HUD.",
   "license": "MIT",
   "type": "module",
