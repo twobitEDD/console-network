@@ -24,11 +24,8 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Build package
-        run: npm run build:console
-
-      - name: Run package smoke tests
-        run: node --test test/*.test.mjs
+      - name: Build package + tests (bundle budgets + smoke + jsdom mounts)
+        run: npm test
 
       - name: Registry build (check up-to-date)
         run: node scripts/build-registry.mjs --check

@@ -5,13 +5,15 @@
  *
  * A "game" or "app" is a **GameModule** object. The host console renders a
  * standard holo shell (plate, lens, chin caption, power button) and exposes
- * four channels where the module can project UI:
+ * overlay channels where the module can project UI:
  *
  *   - viewport  → supreme 3D/2D/video/iframe field, always visible
  *   - α (left)  → list rail, slides in from the left (e.g. matches, inventory)
  *   - β (right) → list rail, slides in from the right (e.g. crew, wallet)
  *   - modal     → center card, fades/scales in (pre-game, post-game, prompts)
  *   - hud       → bottom strip, slides up (status, directives, controls)
+ *   - railLeft / railRight / railDial → salvage-rig bezel slots (metrics beside LEDs,
+ *     notes under the dial, or a custom dial replacing the stock knob)
  *
  * A module never renders the rig itself — it exports a React component that
  * projects content into channels via the ConsoleSlots.* slot wrappers.
@@ -53,13 +55,28 @@
  */
 
 /**
+ * @typedef {Object} ConsoleShellApi
+ *   Presentation helpers when the host uses immersive / fullscreen-style chrome.
+ * @property {boolean}                    immersiveDeckPinned  When true, channel toggles stay visible while immersive.
+ * @property {(pinned:boolean) => void}   setImmersiveDeckPinned
+ * @property {boolean}                    immersiveChromeRevealed
+ *   When `presentation` is immersive: whether the deck/footer is visible (slim edge controls stay available).
+ * @property {(open:boolean) => void}     setImmersiveChromeRevealed
+ * @property {() => Promise<void>=}       enterPresentationFullscreen  Browser Fullscreen API on the host root (no-op if unsupported).
+ * @property {() => Promise<void>=}       exitPresentationFullscreen   Exit document fullscreen if active.
+ */
+
+/**
  * @typedef {Object} ConsoleHostApi
  *   Full host surface handed to a module at mount time.
  * @property {ConsoleIdentity}                     identity
  * @property {ConsoleChain|undefined}              chain
  * @property {ConsoleChannelApi}                   channels
+ * @property {ConsoleShellApi=}                    shell
+ * @property {'default'|'immersive'}               presentation  Host chrome layout; modules may adapt secondary UI hints.
  * @property {(key:string, fallback?:string) => string} t   i18n resolver
- * @property {(event:string, payload?:*) => void=} emit     analytics hook
+ * @property {(event:string, payload?:*) => void=} emit     analytics hook; the host may emit
+ *   `'chrome:dial'` with `{ degrees: number, normalized: number }` when the stock rig dial turns.
  */
 
 /**
@@ -72,8 +89,8 @@
  *   Rig metadata. Defaults are auto-derived from `id` + `version` if omitted.
  * @property {import('react').ComponentType<{api:ConsoleHostApi}>} Component
  *   A React component authored at module scope. Receives `{ api }` as props
- *   and renders ConsoleSlots.Viewport, ConsoleSlots.Left, etc. to project
- *   content into the console's four channels.
+ *   and renders ConsoleSlots.Viewport, ConsoleSlots.Left, ConsoleSlots.RailLeft, etc. to project
+ *   content into the console channels.
  * @property {(api:ConsoleHostApi) => void|(() => void)=} onMount
  *   Optional side-effect hook invoked once per logical module (`module.id`).
  *   Receives the latest `api` at call time; use the mounted component's `api`

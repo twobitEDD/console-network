@@ -82,6 +82,10 @@
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   overflow: hidden;
   z-index: 1;
+  --edd-scan-mul: 1;
+  --edd-noise-mul: 1;
+  --edd-chroma-mul: 1;
+  --edd-vignette-mul: 1;
 }
 
 .edd-holo-rig__warning-strip {
@@ -152,6 +156,8 @@
   transform: skewX(-0.8deg);
   position: relative;
   z-index: 1;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .edd-holo-rig__plate-id {
@@ -180,6 +186,20 @@
   border-radius: 50%;
   background: radial-gradient(circle at 30% 30%, #86efac, #166534);
   box-shadow: 0 0 6px rgba(74, 222, 128, 0.8), 0 0 0 1px rgba(0, 0, 0, 0.5) inset;
+  cursor: default;
+  transition:
+    transform 0.16s ease,
+    filter 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+.edd-holo-rig__plate-leds span:hover {
+  transform: scale(1.14);
+  filter: brightness(1.28);
+}
+
+.edd-holo-rig__plate-leds span:active {
+  transform: scale(0.94);
 }
 
 .edd-holo-rig__plate-leds span:nth-child(2) {
@@ -216,11 +236,27 @@
   background: linear-gradient(195deg, var(--edd-plastic-hi), var(--edd-plastic-lo));
   border: 1px solid rgba(0, 0, 0, 0.45);
   box-shadow: 0 0 0 1px var(--holo-rail-inset-line) inset, 2px 0 10px rgba(0, 0, 0, 0.4) inset;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+  transition:
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    filter 0.22s ease,
+    transform 0.14s ease;
 }
 
 .edd-holo-rig__rail--left {
   opacity: 0.92;
   transform: translateY(2px);
+}
+
+.edd-holo-rig__rail--left:active {
+  transform: translateY(3px) scale(0.988);
+}
+
+.edd-holo-rig__rail--right:active {
+  transform: scale(0.988);
 }
 
 .edd-holo-rig__rail--right {
@@ -241,6 +277,15 @@
   );
   border-radius: 0.15rem;
   opacity: 0.75;
+  cursor: default;
+  transition:
+    opacity 0.2s ease,
+    filter 0.2s ease,
+    transform 0.14s ease;
+}
+
+.edd-holo-rig__rail:active .edd-holo-rig__ticks {
+  transform: scaleY(0.985);
 }
 
 .edd-holo-rig__led-column {
@@ -257,6 +302,16 @@
   background: var(--holo-led);
   box-shadow: 0 0 5px var(--holo-led-glow), 0 0 0 1px rgba(0, 0, 0, 0.6) inset;
   opacity: 0.85;
+  cursor: default;
+  transition:
+    opacity 0.2s ease,
+    filter 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.14s ease;
+}
+
+.edd-holo-rig__rail:active .edd-holo-rig__led {
+  transform: scale(0.94);
 }
 
 .edd-holo-rig__led:nth-child(3n) {
@@ -289,6 +344,118 @@
   box-shadow: 0 0 4px rgba(251, 191, 36, 0.5);
 }
 
+.edd-holo-rig__dial-host {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.26rem;
+  width: 100%;
+}
+
+.edd-holo-rig__dial--interactive {
+  cursor: grab;
+  touch-action: none;
+}
+
+.edd-holo-rig__dial--interactive:active {
+  cursor: grabbing;
+}
+
+.edd-holo-rig__dial--interactive:hover {
+  border-color: rgba(251, 191, 36, 0.72);
+  box-shadow:
+    0 0 0 3px rgba(0, 0, 0, 0.35) inset,
+    0 4px 12px rgba(0, 0, 0, 0.5),
+    0 0 14px rgba(251, 191, 36, 0.22);
+}
+
+.edd-holo-rig__dial--interactive:focus-visible {
+  outline: 2px solid rgba(253, 224, 71, 0.95);
+  outline-offset: 3px;
+}
+
+.edd-holo-rig__rail-slot {
+  box-sizing: border-box;
+  width: 100%;
+  max-height: 4.75rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 0.14rem 0.12rem;
+  border-radius: 0.12rem;
+  border: 1px solid rgba(0, 0, 0, 0.42);
+  background: rgba(12, 10, 8, 0.42);
+  font-size: 0.42rem;
+  line-height: 1.35;
+  letter-spacing: 0.05em;
+  color: rgba(254, 243, 199, 0.82);
+  text-transform: uppercase;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  cursor: default;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.14s ease,
+    background 0.18s ease;
+}
+
+.edd-holo-rig__rail-slot:hover {
+  border-color: rgba(251, 191, 36, 0.42);
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.35);
+  background: rgba(18, 14, 10, 0.52);
+}
+
+.edd-holo-rig__rail-slot:active {
+  transform: scale(0.985);
+}
+
+.edd-holo-rig__rail-slot--selectable,
+.edd-holo-rig__rail-slot--selectable * {
+  user-select: text;
+  -webkit-user-select: text;
+  cursor: auto;
+}
+
+.edd-holo-rig__rail-slot--left {
+  margin-bottom: 0.18rem;
+}
+
+.edd-holo-rig__rail-slot--right {
+  margin-top: 0.12rem;
+}
+
+.edd-holo-rig__rail:hover {
+  filter: brightness(1.045);
+  border-color: rgba(251, 191, 36, 0.32);
+}
+
+.edd-holo-rig__rail--right:hover {
+  border-color: rgba(167, 243, 208, 0.28);
+}
+
+.edd-holo-rig__rail:hover .edd-holo-rig__ticks {
+  opacity: 0.92;
+  filter: contrast(1.08);
+}
+
+.edd-holo-rig__rail:hover .edd-holo-rig__led {
+  filter: brightness(1.18);
+  box-shadow: 0 0 7px var(--holo-led-glow), 0 0 0 1px rgba(0, 0, 0, 0.55) inset;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edd-holo-rig__rail,
+  .edd-holo-rig__ticks,
+  .edd-holo-rig__led,
+  .edd-holo-rig__vents,
+  .edd-holo-rig__screws span,
+  .edd-holo-rig__plate-leds span {
+    transition: none;
+  }
+}
+
 .edd-holo-rig__vents {
   width: 100%;
   flex: 1;
@@ -303,6 +470,20 @@
   );
   border-radius: 0.12rem;
   opacity: 0.9;
+  cursor: default;
+  transition:
+    opacity 0.18s ease,
+    filter 0.18s ease,
+    transform 0.14s ease;
+}
+
+.edd-holo-rig__rail--right:hover .edd-holo-rig__vents {
+  opacity: 0.98;
+  filter: contrast(1.08) brightness(1.04);
+}
+
+.edd-holo-rig__rail--right:active .edd-holo-rig__vents {
+  transform: scaleY(0.97);
 }
 
 .edd-holo-rig__screws {
@@ -317,6 +498,18 @@
   border-radius: 50%;
   background: conic-gradient(from 40deg, #78716c, #44403c, #a8a29e, #57534e);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.65) inset, 0 1px 2px rgba(0, 0, 0, 0.5);
+  cursor: default;
+  transition:
+    transform 0.14s ease,
+    filter 0.14s ease;
+}
+
+.edd-holo-rig__rail--right:hover .edd-holo-rig__screws span {
+  filter: brightness(1.18);
+}
+
+.edd-holo-rig__screws span:active {
+  transform: scale(0.9);
 }
 
 .edd-holo-glass {
@@ -403,6 +596,56 @@
 
 .edd-holo-glass--off .edd-holo-glass__lens-arc { opacity: 0.06; }
 
+@keyframes edd-crt-power-off {
+  0% {
+    transform: scaleY(1);
+    filter: brightness(1) saturate(1);
+    box-shadow:
+      inset 0 0 0 1px var(--holo-glass-viewport-border),
+      inset 0 0 0 0 rgba(200, 255, 220, 0);
+  }
+  28% {
+    transform: scaleY(0.82);
+    filter: brightness(1.12) saturate(1.05);
+  }
+  48% {
+    transform: scaleY(0.1);
+    filter: brightness(2.15) saturate(0.35);
+    box-shadow:
+      inset 0 0 0 1px rgba(187, 247, 208, 0.45),
+      inset 0 0 26px rgba(167, 243, 208, 0.35);
+  }
+  72% {
+    transform: scaleY(0.028);
+    filter: brightness(1.25) saturate(0);
+    box-shadow:
+      inset 0 0 0 1px rgba(30, 41, 59, 0.8),
+      inset 0 0 12px rgba(0, 0, 0, 0.85);
+  }
+  100% {
+    transform: scaleY(0.022);
+    filter: brightness(0.07) saturate(0);
+    box-shadow:
+      inset 0 0 0 1px rgba(0, 0, 0, 0.92),
+      inset 0 0 16px rgba(0, 0, 0, 1);
+  }
+}
+
+@keyframes edd-crt-phosphor-line {
+  0% {
+    opacity: 0;
+    filter: brightness(1);
+  }
+  38% {
+    opacity: 1;
+    filter: brightness(1.45);
+  }
+  100% {
+    opacity: 0.08;
+    filter: brightness(0.55);
+  }
+}
+
 .edd-holo-glass__viewport {
   position: relative;
   z-index: 1;
@@ -412,11 +655,33 @@
   flex-direction: column;
   border-radius: var(--edd-inner-r1) var(--edd-inner-r1) 0.12rem 0.12rem;
   overflow: hidden;
+  transform-origin: center center;
   background: var(--holo-glass-viewport-bg);
   box-shadow: inset 0 0 0 1px var(--holo-glass-viewport-border);
   transition:
     background var(--edd-glass-dur) var(--edd-glass-ease),
-    box-shadow var(--edd-glass-dur) var(--edd-glass-ease);
+    box-shadow 0.62s cubic-bezier(0.34, 1.1, 0.52, 1),
+    transform 0.72s cubic-bezier(0.26, 1.18, 0.44, 1),
+    filter 0.55s ease-out;
+}
+
+.edd-holo-glass__viewport::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 48;
+  opacity: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 43%,
+    rgba(210, 255, 225, 0.95) 50%,
+    transparent 57%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
 }
 
 .edd-holo-glass--on .edd-holo-glass__viewport {
@@ -424,7 +689,30 @@
   box-shadow: var(--holo-glass-viewport-on-shadow);
 }
 
-.edd-holo-glass--off .edd-holo-glass__viewport { pointer-events: none; }
+.edd-holo-glass--off .edd-holo-glass__viewport {
+  pointer-events: none;
+  animation: edd-crt-power-off 0.56s cubic-bezier(0.45, 0, 0.2, 1) forwards;
+}
+
+.edd-holo-glass--off .edd-holo-glass__viewport::after {
+  animation: edd-crt-phosphor-line 0.56s cubic-bezier(0.45, 0, 0.2, 1) forwards;
+}
+
+.edd-holo-rig--effects-lite .edd-holo-glass--off .edd-holo-glass__viewport {
+  animation: none;
+  transform: scaleY(0.035);
+  filter: brightness(0.12) saturate(0);
+  box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.95);
+}
+
+.edd-holo-rig--effects-lite .edd-holo-glass--off .edd-holo-glass__viewport::after {
+  animation: none;
+  opacity: 0;
+}
+
+.edd-holo-rig--effects-lite .edd-holo-glass__viewport {
+  transition-duration: 0.05s;
+}
 
 .edd-holo-glass__shine {
   position: absolute;
@@ -473,7 +761,7 @@
     rgba(0, 12, 6, 0.22) 1px,
     rgba(0, 12, 6, 0.22) 2px
   );
-  opacity: 0.58;
+  opacity: calc(0.58 * var(--edd-scan-mul));
   transition: opacity var(--edd-glass-dur) var(--edd-glass-ease);
 }
 
@@ -485,7 +773,7 @@
   border-radius: var(--edd-inner-r1) var(--edd-inner-r1) 0.12rem 0.12rem;
   pointer-events: none;
   z-index: 3;
-  opacity: 0.14;
+  opacity: calc(0.14 * var(--edd-noise-mul));
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.65'/%3E%3C/svg%3E");
   background-size: 180px 180px;
@@ -500,7 +788,7 @@
   border-radius: var(--edd-inner-r1) var(--edd-inner-r1) 0.12rem 0.12rem;
   pointer-events: none;
   z-index: 3;
-  opacity: 0.55;
+  opacity: calc(0.55 * var(--edd-chroma-mul));
   mix-blend-mode: screen;
   background:
     linear-gradient(90deg, rgba(255, 0, 128, 0.09) 0%, transparent 7%),
@@ -523,7 +811,7 @@
     rgba(0, 0, 0, 0.5) 100%
   );
   mix-blend-mode: multiply;
-  opacity: 1;
+  opacity: calc(1 * var(--edd-vignette-mul));
   transition: opacity var(--edd-glass-dur) var(--edd-glass-ease);
 }
 
@@ -539,6 +827,8 @@
   text-align: center;
   color: var(--holo-glass-caption);
   transition: opacity var(--edd-glass-dur) var(--edd-glass-ease);
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .edd-holo-glass--off .edd-holo-glass__caption { opacity: 0.35; }
@@ -556,6 +846,8 @@
   background: var(--holo-footer-bg);
   position: relative;
   z-index: 1;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .edd-holo-rig__footer-channel {
@@ -602,6 +894,12 @@
   border: 1px solid var(--holo-rig-power-border);
   border-radius: 0.2rem;
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+  transition:
+    border-color 0.16s ease,
+    color 0.16s ease,
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    filter 0.16s ease;
 }
 
 .edd-holo-rig__power[aria-pressed="false"] {
@@ -610,7 +908,21 @@
   border-color: var(--holo-rig-power-standby-border);
 }
 
-.edd-holo-rig__power:hover { border-color: rgba(253, 224, 71, 0.45); color: #fffbeb; }
+.edd-holo-rig__power:hover {
+  border-color: rgba(253, 224, 71, 0.45);
+  color: #fffbeb;
+  filter: brightness(1.06);
+}
+
+.edd-holo-rig__power:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+}
+
+.edd-holo-rig__power:focus-visible {
+  outline: 2px solid rgba(125, 211, 252, 0.85);
+  outline-offset: 2px;
+}
 
 .edd-holo-rig__reset {
   font-family: inherit;
@@ -624,10 +936,24 @@
   border: 1px solid var(--holo-rig-reset-border);
   border-radius: 0.2rem;
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+  transition:
+    border-color 0.16s ease,
+    color 0.16s ease,
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    filter 0.16s ease;
 }
 
-.edd-holo-rig__reset:hover { border-color: rgba(253, 224, 71, 0.55); color: #fffbeb; }
+.edd-holo-rig__reset:hover {
+  border-color: rgba(253, 224, 71, 0.55);
+  color: #fffbeb;
+  filter: brightness(1.06);
+}
 .edd-holo-rig__reset:active { transform: translateY(1px); box-shadow: 0 1px 0 rgba(0, 0, 0, 0.35); }
+.edd-holo-rig__reset:focus-visible {
+  outline: 2px solid rgba(253, 224, 71, 0.75);
+  outline-offset: 2px;
+}
 
 .edd-holo-rig__channel-toggle {
   font-family: inherit;
@@ -640,6 +966,28 @@
   background: rgba(0, 0, 0, 0.35);
   border: 1px solid rgba(253, 224, 71, 0.35);
   border-radius: 0.2rem;
+  transition:
+    border-color 0.16s ease,
+    background 0.16s ease,
+    color 0.16s ease,
+    transform 0.12s ease,
+    box-shadow 0.16s ease,
+    filter 0.16s ease;
+}
+
+.edd-holo-rig__channel-toggle:hover {
+  border-color: rgba(253, 224, 71, 0.52);
+  filter: brightness(1.08);
+  box-shadow: 0 0 12px rgba(253, 224, 71, 0.12);
+}
+
+.edd-holo-rig__channel-toggle:active {
+  transform: translateY(1px);
+}
+
+.edd-holo-rig__channel-toggle:focus-visible {
+  outline: 2px solid rgba(253, 224, 71, 0.65);
+  outline-offset: 2px;
 }
 
 .edd-holo-rig__channel-toggle[aria-pressed="true"] {
@@ -673,7 +1021,40 @@
 
 .holo-overlay.is-open { pointer-events: auto; }
 
-.holo-overlay__panel { box-sizing: border-box; overscroll-behavior: contain; }
+.holo-overlay__panel {
+  box-sizing: border-box;
+  overscroll-behavior: contain;
+  transition:
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    filter 0.22s ease;
+}
+
+.holo-overlay.is-open .holo-overlay__panel--frame1:hover,
+.holo-overlay.is-open .holo-overlay__panel--frame2:hover {
+  filter: brightness(1.03);
+  border-color: rgba(252, 165, 165, 0.72);
+}
+
+.holo-overlay.is-open .holo-overlay__panel--center:hover {
+  filter: brightness(1.025);
+  border-color: rgba(244, 114, 182, 0.72);
+  box-shadow:
+    0 0 0 1px rgba(236, 72, 153, 0.16) inset,
+    0 24px 54px rgba(0, 0, 0, 0.58);
+}
+
+.holo-overlay.is-open .holo-overlay__panel--bottom:hover {
+  filter: brightness(1.03);
+  border-color: rgba(110, 231, 183, 0.62);
+  box-shadow: 0 -10px 36px rgba(0, 0, 0, 0.48);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .holo-overlay__panel {
+    transition: none;
+  }
+}
 
 .holo-overlay__panel--list {
   height: 100%;
@@ -1138,4 +1519,382 @@
   .holo-connections-trigger:hover {
     transform: none;
   }
+}
+
+/* ---------- Host wrapper (ConsoleHost root — target for Fullscreen API) ---------- */
+.edd-console-host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  width: 100%;
+  min-width: 0;
+  position: relative;
+}
+
+.edd-console-host--immersive {
+  flex: 1;
+  min-height: 0;
+  align-self: stretch;
+  width: 100%;
+  overflow: visible;
+}
+
+.edd-console-host--immersive .holo-connections-trigger {
+  top: auto;
+  bottom: clamp(3.25rem, 11vmin, 5.5rem);
+  opacity: 0.4;
+  transition: opacity 0.28s ease;
+}
+
+.edd-console-host--immersive-chrome-hidden .holo-connections-trigger {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.edd-console-host--immersive:hover .holo-connections-trigger,
+.edd-console-host--immersive:focus-within .holo-connections-trigger {
+  opacity: 1;
+}
+
+/* ---------- Visual tiers: potato / balanced / extra ---------- */
+.edd-holo-rig--tier-potato {
+  --edd-scan-mul: 0;
+  --edd-noise-mul: 0;
+  --edd-chroma-mul: 0;
+  --edd-vignette-mul: 0.72;
+}
+
+.edd-holo-rig--tier-potato::before {
+  opacity: 0.08;
+}
+
+.edd-holo-rig--tier-extra .edd-holo-glass__lens--physical {
+  --edd-px: 0;
+  --edd-py: 0;
+}
+
+/* Side list rails: light sweep on rows (buttons keep their own hover above) */
+.holo-overlay__panel--list li {
+  transition:
+    transform 0.18s ease,
+    filter 0.18s ease;
+}
+
+.holo-overlay--left .holo-overlay__panel--list li:hover {
+  transform: translateX(3px);
+  filter: brightness(1.06);
+}
+
+.holo-overlay--right .holo-overlay__panel--list li:hover {
+  transform: translateX(-3px);
+  filter: brightness(1.06);
+}
+
+.holo-overlay__panel--center section,
+.holo-overlay__panel--bottom section {
+  transition: filter 0.18s ease;
+}
+
+.holo-overlay__panel--center section:hover,
+.holo-overlay__panel--bottom section:hover {
+  filter: brightness(1.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .holo-overlay--left .holo-overlay__panel--list li:hover,
+  .holo-overlay--right .holo-overlay__panel--list li:hover {
+    transform: none;
+  }
+}
+
+.edd-console-host .edd-holo-rig.holo-console-rig {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Side / modal / HUD panels: simple hover affordances (viewport lens stays inert in extra tier) */
+.holo-overlay__panel button,
+.holo-overlay__panel [type="button"],
+.holo-overlay__panel a {
+  transition:
+    transform 0.16s ease,
+    filter 0.16s ease,
+    box-shadow 0.16s ease,
+    border-color 0.16s ease;
+}
+.holo-overlay__panel button:hover,
+.holo-overlay__panel [type="button"]:hover,
+.holo-overlay__panel a:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .holo-overlay__panel button:hover,
+  .holo-overlay__panel [type="button"]:hover,
+  .holo-overlay__panel a:hover {
+    transform: none;
+  }
+}
+
+/* ---------- Immersive presentation (viewport-first / fullscreen-style) ---------- */
+.edd-holo-rig--immersive .edd-holo-rig__top-hazard,
+.edd-holo-rig--immersive .edd-holo-rig__warning-strip,
+.edd-holo-rig--immersive .edd-holo-rig__sticker {
+  display: none;
+}
+
+.edd-holo-rig--immersive .edd-holo-rig__plate {
+  display: none;
+}
+
+.edd-holo-rig--immersive .edd-holo-rig__body {
+  grid-template-columns: 0 minmax(0, 1fr) 0;
+  gap: 0;
+  padding: 0;
+}
+
+.edd-holo-rig--immersive .edd-holo-rig__rail {
+  visibility: hidden;
+  width: 0;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.edd-holo-rig--immersive .edd-holo-glass__caption {
+  display: none;
+}
+
+/* Borderless “real” fullscreen: no salvage bezel, lens flush to edges */
+.edd-holo-rig--immersive {
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  background: #030712;
+  overflow: visible;
+}
+
+.edd-holo-rig--immersive::before {
+  display: none;
+}
+
+.edd-holo-rig--immersive .holo-console-stage,
+.edd-holo-rig--immersive .holo-console-core {
+  flex: 1;
+  min-height: 0;
+}
+
+.edd-holo-rig--immersive .edd-holo-glass__lens {
+  --glass-pad: 0;
+  --glass-top-r: 0;
+  --edd-inner-r1: 0;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.edd-holo-rig--immersive.edd-holo-rig--extra-motion .edd-holo-glass__lens--physical {
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.12);
+}
+
+.edd-holo-rig--immersive .edd-holo-glass__lens-breathe-layer,
+.edd-holo-rig--immersive .edd-holo-glass__lens-prism {
+  inset: 0;
+  border-radius: 0;
+}
+
+.edd-holo-rig--immersive .edd-holo-glass__viewport {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.edd-holo-rig--immersive .edd-holo-glass__lens-rim,
+.edd-holo-rig--immersive .edd-holo-glass__lens-arc {
+  display: none;
+}
+
+.edd-holo-rig--immersive .edd-holo-glass__shine {
+  opacity: 0.055;
+  transform: none;
+}
+
+.edd-holo-rig--immersive .edd-holo-glass__scanlines {
+  opacity: calc(0.22 * var(--edd-scan-mul));
+}
+
+.edd-holo-rig--immersive .edd-holo-glass__noise {
+  opacity: calc(0.06 * var(--edd-noise-mul));
+}
+
+.edd-holo-rig--immersive .edd-holo-glass__chroma {
+  opacity: calc(0.2 * var(--edd-chroma-mul));
+}
+
+.edd-holo-rig--immersive .edd-holo-glass__vignette {
+  opacity: calc(0.52 * var(--edd-vignette-mul));
+}
+
+.edd-holo-rig--immersive .holo-overlay-root {
+  border-radius: 0;
+  inset: 0;
+}
+
+.edd-holo-rig__immersive-dock {
+  position: absolute;
+  left: 0.28rem;
+  right: 0.28rem;
+  bottom: 0.22rem;
+  z-index: 12;
+  pointer-events: none;
+}
+
+.edd-holo-rig--immersive .edd-holo-rig__immersive-dock {
+  left: max(0px, env(safe-area-inset-left, 0px));
+  right: max(0px, env(safe-area-inset-right, 0px));
+  bottom: max(0px, env(safe-area-inset-bottom, 0px));
+}
+
+.edd-holo-rig__immersive-dock > * {
+  pointer-events: auto;
+}
+
+.edd-holo-rig__peek-hitbox {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  height: min(96px, 18vmin);
+}
+
+.edd-holo-rig--immersive .edd-holo-rig__footer {
+  transition:
+    transform 0.42s cubic-bezier(0.45, 0, 0.2, 1),
+    opacity 0.35s ease;
+  transform: translateY(calc(100% - clamp(28px, 6vmin, 56px)));
+  opacity: 0.88;
+  box-shadow: 0 -10px 32px rgba(0, 0, 0, 0.48);
+  border-radius: 0.38rem 0.38rem 0 0;
+}
+
+.edd-holo-rig__immersive-dock:hover .edd-holo-rig__footer,
+.edd-holo-rig__immersive-dock:focus-within .edd-holo-rig__footer,
+.edd-holo-rig__footer.is-peek-pinned {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Slim edge controls while immersive (show deck, Connections, etc.) */
+.edd-holo-rig__immersive-edge {
+  position: fixed;
+  left: max(0.35rem, env(safe-area-inset-left, 0px));
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 0.42rem;
+  pointer-events: auto;
+}
+
+.edd-holo-rig__immersive-edge-btn {
+  appearance: none;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  border-radius: 999px;
+  width: 2.1rem;
+  height: 2.1rem;
+  padding: 0;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #e2e8f0;
+  background: rgba(15, 23, 42, 0.72);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  transition:
+    transform 0.16s ease,
+    filter 0.16s ease,
+    border-color 0.16s ease;
+}
+.edd-holo-rig__immersive-edge-btn:hover {
+  filter: brightness(1.12);
+  transform: scale(1.04);
+  border-color: rgba(56, 189, 248, 0.55);
+}
+.edd-holo-rig__immersive-edge-btn--primary {
+  background: rgba(14, 116, 144, 0.55);
+  border-color: rgba(56, 189, 248, 0.55);
+}
+.edd-holo-rig__immersive-edge-btn--accent {
+  font-size: 0.85rem;
+}
+
+.edd-holo-rig__immersive-edge-btn--fullscreen {
+  font-size: 0.72rem;
+  letter-spacing: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edd-holo-rig__immersive-edge-btn:hover {
+    transform: none;
+  }
+}
+
+.edd-holo-rig--extra-motion .edd-holo-glass__lens--physical {
+  box-shadow:
+    var(--holo-glass-lens-shadow),
+    0 0 clamp(12px, 3vmin, 28px) rgba(56, 189, 248, 0.06);
+}
+
+/* Fixed glass stack only — breathing / pointer-linked layers caused visible flicker over games */
+.edd-holo-glass__lens-breathe-layer {
+  position: absolute;
+  inset: var(--glass-pad);
+  border-radius: var(--edd-inner-r1) var(--edd-inner-r1) 0.12rem 0.12rem;
+  pointer-events: none;
+  z-index: 3;
+  mix-blend-mode: soft-light;
+  opacity: 0.4;
+  background: radial-gradient(
+    ellipse at 50% 44%,
+    rgba(255, 255, 255, 0.11) 0%,
+    rgba(186, 230, 253, 0.04) 38%,
+    transparent 62%
+  );
+}
+
+.edd-holo-glass__lens-prism {
+  position: absolute;
+  inset: var(--glass-pad);
+  border-radius: var(--edd-inner-r1) var(--edd-inner-r1) 0.12rem 0.12rem;
+  pointer-events: none;
+  z-index: 6;
+  opacity: 0.38;
+  mix-blend-mode: soft-light;
+  background:
+    radial-gradient(
+      ellipse at 50% 48%,
+      rgba(186, 230, 253, 0.18) 0%,
+      rgba(56, 189, 248, 0.06) 35%,
+      transparent 58%
+    ),
+    linear-gradient(
+      165deg,
+      rgba(255, 255, 255, 0.06),
+      transparent 42%,
+      rgba(125, 211, 252, 0.05)
+    );
+  transition: opacity var(--edd-glass-dur) var(--edd-glass-ease);
+}
+
+.edd-holo-rig--tier-potato .edd-holo-glass__lens-prism,
+.edd-holo-rig--tier-potato .edd-holo-glass__lens-breathe-layer {
+  display: none;
 }

@@ -18,6 +18,9 @@ export function useConsoleChannels(initial = {}) {
   const [centerOpen, setCenter] = useState(initial.center ?? false);
   const [bottomOpen, setBottom] = useState(initial.bottom ?? true);
   const [power, setPower] = useState(true);
+  const [immersiveDeckPinned, setImmersiveDeckPinned] = useState(false);
+  /** When presentation is `immersive`, deck/chrome starts hidden; edge buttons reveal it. */
+  const [immersiveChromeRevealed, setImmersiveChromeRevealed] = useState(false);
 
   const api = useMemo(
     () => ({
@@ -57,10 +60,21 @@ export function useConsoleChannels(initial = {}) {
     [],
   );
 
+  const shell = useMemo(
+    () => ({
+      immersiveDeckPinned,
+      setImmersiveDeckPinned: (next) => setImmersiveDeckPinned(Boolean(next)),
+      immersiveChromeRevealed,
+      setImmersiveChromeRevealed: (next) => setImmersiveChromeRevealed(Boolean(next)),
+    }),
+    [immersiveDeckPinned, immersiveChromeRevealed],
+  );
+
   return {
     state,
     set,
     api,
     toggle,
+    shell,
   };
 }

@@ -78,13 +78,30 @@ The full docs live in [`docs/`](./docs/README.md):
 | [Design review](./docs/08-design-review.md)                    | Proposed v0.2 → v1.0 improvements                 |
 | [The registry](./docs/09-registry.md)                          | Public themes + projects, how the CDN works       |
 | [Publishing a theme or project](./docs/10-publishing.md)       | 5-minute PR path to appearing in every console    |
+| [Testing & performance](./docs/11-testing-and-performance.md)  | npm scripts, gzip budgets, jsdom tests, demo flow |
 
 ## Host ergonomics (motion & churn)
 
+- **`presentation`** — `"default"` \| `"immersive"` (viewport-first chrome; channel/power deck peeks from the bottom edge). Modules receive the same value on **`api.presentation`**.
+- **`visualTier`** — `"potato"` \| `"balanced"` \| `"extra"`: scales CRT overlays + motion cost (`potato` wins over `extra` when you need predictably cheap frames).
+- **`api.shell`** — **`immersiveDeckPinned`** / **`setImmersiveDeckPinned`** for pinning the immersive deck while `presentation="immersive"`.
 - **`effects="lite"`** — disables lens parallax and tightens chrome transitions (also stacks with OS reduced motion when `effects="full"`).
 - **`respectReducedMotion`** — defaults to `true`; set **`false`** only if you intentionally override accessibility prefs (the rig adds `edd-holo-rig--effects-full` so packaged CSS can restore motion durations).
 - **`pickConsoleIdentityFields` / `DEFAULT_CONSOLE_IDENTITY`** — helpers for the identity shape; the host already normalizes `handle` / `address` / `isAuthenticated` so `api` stays stable across benign object churn (memoize callbacks / `extra` in your app).
 - **`debug`** — development-only logs when the `module` reference or normalized identity changes; pair with **why-did-you-render** in your repo for deeper traces.
+
+## Testing & release
+
+Automated checks (run from the **repo root**):
+
+```bash
+npm test              # build library + all Node tests (includes gzip budgets + jsdom mounts)
+npm run lint
+npm run perf:size     # print gzipped bundle + CSS sizes (needs package/dist)
+npm run release:check # lint + build everything + tests + registry check — gate before tagging
+```
+
+See **[Testing & performance](./docs/11-testing-and-performance.md)** for what each test file covers and how to exercise tiers manually via `examples/demo`.
 
 ## Connections panel
 

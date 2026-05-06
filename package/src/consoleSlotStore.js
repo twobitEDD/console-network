@@ -40,5 +40,9 @@ function newEmptySlots() {
     right: {},
     center: {},
     bottom: {},
+    /** Decorative salvage rails + dial (default presentation only). */
+    railLeft: {},
+    railRight: {},
+    railDial: {},
   };
 }

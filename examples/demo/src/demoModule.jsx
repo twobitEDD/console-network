@@ -1,6 +1,18 @@
 /* eslint-disable react-refresh/only-export-components */
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { ConsoleSlots, defineGameModule } from "@twobitedd/console-network";
+import {
+  getDemoChromeDialSnapshot,
+  subscribeDemoChromeDial,
+} from "./demoChromeDialBus.js";
+
+function useDemoChromeDial() {
+  return useSyncExternalStore(
+    subscribeDemoChromeDial,
+    getDemoChromeDialSnapshot,
+    getDemoChromeDialSnapshot,
+  );
+}
 
 const FAKE_MATCHES = [
   { id: "m1", title: "Nebula Drift", rev: "rev 0.4", status: "LIVE" },
@@ -16,6 +28,7 @@ function DemoGame({ api }) {
   const [selected, setSelected] = useState(FAKE_MATCHES[0].id);
   const [signedIn, setSignedIn] = useState(Boolean(api.identity?.isAuthenticated));
   const [lastEvent, setLastEvent] = useState(`mount · id=${api.identity?.handle ?? "guest"}`);
+  const chromeDial = useDemoChromeDial();
 
   const pop = (label) => {
     const stamp = new Date().toLocaleTimeString();
@@ -43,7 +56,40 @@ function DemoGame({ api }) {
             tap · {count}
           </button>
           <p style={styles.viewportFoot}>
-            α / β / MODAL / HUD all load independently — try the toggle buttons below.
+            α / β / MODAL / HUD / salvage rails all load independently — try the toggles below.
+            {api.presentation === "immersive" && api.shell ? (
+              <>
+                {" "}
+                Deck starts hidden — use the slim buttons mid-screen left (‹ › to hide/show deck,
+                ⛶ system fullscreen, ◎ connections when enabled). Or{" "}
+                <button
+                  type="button"
+                  style={styles.linkish}
+                  onClick={() => api.shell.setImmersiveChromeRevealed(true)}
+                >
+                  reveal deck
+                </button>
+                {" · "}
+                <button
+                  type="button"
+                  style={styles.linkish}
+                  onClick={() => api.shell.enterPresentationFullscreen?.()}
+                >
+                  fullscreen
+                </button>
+                {" · pin toggles "}
+                <button
+                  type="button"
+                  style={styles.linkish}
+                  onClick={() =>
+                    api.shell.setImmersiveDeckPinned(!api.shell.immersiveDeckPinned)
+                  }
+                >
+                  {api.shell.immersiveDeckPinned ? "off" : "on"}
+                </button>
+                .
+              </>
+            ) : null}
           </p>
         </div>
       </ConsoleSlots.Viewport>
@@ -88,6 +134,10 @@ function DemoGame({ api }) {
         </section>
       </ConsoleSlots.Left>
 
+      <ConsoleSlots.RailLeft>
+        <span style={styles.railChip}>rail L · Δyield</span>
+      </ConsoleSlots.RailLeft>
+
       {/* ═══════════ β RIGHT — Frame 2 — identity rail ═══════════ */}
       <ConsoleSlots.Right>
         <section style={styles.panel}>
@@ -116,6 +166,10 @@ function DemoGame({ api }) {
           </button>
         </section>
       </ConsoleSlots.Right>
+
+      <ConsoleSlots.RailRight>
+        <span style={styles.railChip}>rail R · slot docs</span>
+      </ConsoleSlots.RailRight>
 
       {/* ═══════════ MODAL CENTER — Frame 3 — prompts / outcomes ═══════════ */}
       <ConsoleSlots.Center>
@@ -165,7 +219,13 @@ function DemoGame({ api }) {
             <div>
               <strong style={styles.hudTitle}>HUD · frame 4</strong>
               <div style={styles.hudSub}>
-                count <b>{count}</b> · last event <b>{lastEvent}</b>
+                count <b>{count}</b> · chrome dial{" "}
+                <b>
+                  {chromeDial
+                    ? `${Math.round(chromeDial.degrees)}° · ${chromeDial.normalized.toFixed(3)}`
+                    : "—"}
+                </b>{" "}
+                · last event <b>{lastEvent}</b>
               </div>
             </div>
           </div>
@@ -248,6 +308,19 @@ const styles = {
     fontSize: "0.66rem",
     color: "rgba(165, 243, 252, 0.55)",
     position: "relative",
+  },
+  linkish: {
+    display: "inline",
+    padding: 0,
+    margin: 0,
+    border: "none",
+    borderBottom: "1px dotted rgba(125, 211, 252, 0.55)",
+    background: "transparent",
+    color: "rgba(186, 230, 253, 0.92)",
+    cursor: "pointer",
+    fontFamily: "inherit",
+    fontSize: "inherit",
+    letterSpacing: "inherit",
   },
 
   panel: {
@@ -361,4 +434,10 @@ const styles = {
   hudTitle: { fontSize: "0.9rem", letterSpacing: "0.08em" },
   hudSub: { fontSize: "0.7rem", color: "rgba(190, 242, 100, 0.72)" },
   hudRight: { display: "flex", gap: "0.35rem", flexWrap: "wrap" },
+
+  railChip: {
+    display: "block",
+    textAlign: "center",
+    color: "rgba(254, 215, 170, 0.88)",
+  },
 };

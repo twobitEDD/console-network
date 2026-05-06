@@ -5,6 +5,22 @@ All notable changes to `@twobitedd/console-network` are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.4] - 2026-05-06
+
+### Added
+- **`ConsoleHost` props:** `presentation` (`"default"` \| `"immersive"`) and **`visualTier`** (`"potato"` \| `"balanced"` \| `"extra"`).
+- **`api.presentation`** — mirrors host presentation so modules can branch UX without external props.
+- **`ConsoleShellApi` on `api.shell`:** `immersiveDeckPinned`, **`setImmersiveDeckPinned`** for immersive / fullscreen-style deck pinning.
+- **Lens polish when `visualTier="extra"`** — breathe layer, prism + reactive glow, optional soft halo on the physical lens (honors reduced motion / `effects`).
+- **Demo toolbar** (`examples/demo`) for switching presentation + tier; viewport hint + shell pin control when immersive.
+- **Testing:** gzipped **bundle budgets** (`test/performanceBudget.test.mjs`), **static feature surface** checks (`test/featureSurface.test.mjs`), **jsdom mount tests** for immersive/tier/shell (`test/consoleHostMount.test.mjs`), `npm run perf:size`, **`npm run release:check`**, and **`docs/11-testing-and-performance.md`**.
+
+### Changed
+- **Immersive layout CSS:** viewport-first grid; plate/rails tucked away; channel deck **peek dock** from the bottom edge.
+- Pointer-driven **`--edd-glow-x` / `--edd-glow-y`** on the lens for extra-tier overlays (coalesced with existing rAF path).
+
+[0.1.4]: https://github.com/twobitEDD/console-network/releases/tag/v0.1.4
+
 ## [0.1.3] - 2026-05-05
 
 ### Added

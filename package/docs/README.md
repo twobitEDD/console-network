@@ -10,6 +10,9 @@ A small set of focused guides. Start with **Getting started** if you just want t
 6. [Federation](./06-federation.md) — unified "console" across independent sites
 7. [Extending the host](./07-extending.md) — add slots, capabilities, plate telemetry
 8. [Design review](./08-design-review.md) — proposed improvements on the road to v1
+9. [The registry](./09-registry.md) — public themes + projects, how the CDN works
+10. [Publishing a theme or project](./10-publishing.md) — 5-minute PR path to appearing in every console
+11. [Testing & performance](./11-testing-and-performance.md) — npm scripts, bundle budgets, jsdom tests, manual demo
 
 The docs assume you've already done:
 

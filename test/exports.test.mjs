@@ -19,6 +19,9 @@ const REQUIRED_NAMES = [
   "RightSlot",
   "CenterSlot",
   "BottomSlot",
+  "RailLeftSlot",
+  "RailRightSlot",
+  "RailDialSlot",
   "ConsoleSlots",
   "useConsoleChannels",
   "defineGameModule",
@@ -46,6 +49,9 @@ describe("exports", () => {
       api.RightSlot,
       api.CenterSlot,
       api.BottomSlot,
+      api.RailLeftSlot,
+      api.RailRightSlot,
+      api.RailDialSlot,
       api.useConsoleChannels,
       api.defineGameModule,
       api.derivePlate,
@@ -64,6 +70,9 @@ describe("exports", () => {
     assert.equal(api.ConsoleSlots.Right, api.RightSlot);
     assert.equal(api.ConsoleSlots.Center, api.CenterSlot);
     assert.equal(api.ConsoleSlots.Bottom, api.BottomSlot);
+    assert.equal(api.ConsoleSlots.RailLeft, api.RailLeftSlot);
+    assert.equal(api.ConsoleSlots.RailRight, api.RailRightSlot);
+    assert.equal(api.ConsoleSlots.RailDial, api.RailDialSlot);
   });
 
   test("DEFAULT_CONSOLE_IDENTITY is frozen guest defaults", () => {

@@ -7,6 +7,9 @@ export {
   RightSlot,
   CenterSlot,
   BottomSlot,
+  RailLeftSlot,
+  RailRightSlot,
+  RailDialSlot,
 } from "./ConsoleSlots.jsx";
 export { useConsoleChannels } from "./useConsoleChannels.js";
 export { defineGameModule, derivePlate } from "./contracts.js";
@@ -30,6 +33,9 @@ import {
   RightSlot,
   CenterSlot,
   BottomSlot,
+  RailLeftSlot,
+  RailRightSlot,
+  RailDialSlot,
 } from "./ConsoleSlots.jsx";
 
 /**
@@ -44,4 +50,7 @@ export const ConsoleSlots = {
   Right: RightSlot,
   Center: CenterSlot,
   Bottom: BottomSlot,
+  RailLeft: RailLeftSlot,
+  RailRight: RailRightSlot,
+  RailDial: RailDialSlot,
 };

@@ -40,6 +40,16 @@ const EMPTY_LABELS = Object.freeze({});
  * chrome transitions. With `effects="full"` (default), OS reduced motion is
  * honored unless `respectReducedMotion={false}`.
  *
+ * **Presentation:** `presentation="immersive"` yields a viewport-first layout: plate
+ * and rails hide; the channel/power **deck starts hidden** — use the slim edge
+ * strip (or `api.shell.setImmersiveChromeRevealed(true)`) to bring it back. Optional
+ * `api.shell.enterPresentationFullscreen()` / `exitPresentationFullscreen()` wrap the
+ * host root in the browser Fullscreen API (still works whether the deck is hidden).
+ *
+ * **Visual tier:** `visualTier` — `potato` (minimal shaders/animation), `balanced`
+ * (default), `extra` (TV-style lens shading + slow CSS-only vignette; no pointer-driven
+ * lens effects so viewport stays stable for gameplay). Potato wins over `extra` for performance.
+ *
  * **Debug:** `debug` logs reference churn in development (`NODE_ENV !==
  * "production"`). Pair with [@welldone-software/why-did-you-render](https://github.com/welldone-software/why-did-you-render)
  * in your app for deeper renders.
@@ -50,6 +60,7 @@ const EMPTY_LABELS = Object.freeze({});
  *   chain?: import('./contracts.js').ConsoleChain,
  *   t?: (key:string, fallback?:string) => string,
  *   emit?: (event:string, payload?:*) => void,
+ *   onChromeDial?: (detail:{ degrees:number, normalized:number }) => void,
  *   initialChannels?: { left?:boolean, right?:boolean, center?:boolean, bottom?:boolean },
  *   labels?: Partial<{
  *     engage:string, standby:string,
@@ -60,6 +71,8 @@ const EMPTY_LABELS = Object.freeze({});
  *   connections?: boolean | { currentProjectId?: string, registryUrl?: string, label?: string },
  *   effects?: 'full' | 'lite',
  *   respectReducedMotion?: boolean,
+ *   presentation?: 'default' | 'immersive',
+ *   visualTier?: 'potato' | 'balanced' | 'extra',
  *   debug?: boolean,
  * }} props
  */
@@ -69,21 +82,34 @@ export default function ConsoleHost({
   chain,
   t,
   emit,
+  onChromeDial,
   initialChannels,
   labels = EMPTY_LABELS,
   connections = false,
   effects = "full",
   respectReducedMotion = true,
+  presentation = "default",
+  visualTier = "balanced",
   debug = false,
 }) {
   const connectionsConfig = connections === true ? {} : connections || null;
   const prefersReduced = usePrefersReducedMotion();
 
-  const motionReduced =
+  const visualTierSafe =
+    visualTier === "potato" || visualTier === "extra" ? visualTier : "balanced";
+
+  const motionReducedFromEffects =
     effects === "lite" ||
     (effects === "full" && respectReducedMotion && prefersReduced);
 
+  const motionReduced =
+    visualTierSafe === "potato" || motionReducedFromEffects;
+
+  const tierExtra = visualTierSafe === "extra" && !motionReduced;
+
   const forceFullMotionCss = effects === "full" && !respectReducedMotion;
+
+  const immersive = presentation === "immersive";
 
   /* eslint-disable react-hooks/exhaustive-deps --
      Omit noisy wrapper refs (`module`, `identity`, `chain`) when deps listed capture semantics */
@@ -102,6 +128,63 @@ export default function ConsoleHost({
 
   const channels = useConsoleChannels(initialChannels);
   const translate = useMemo(() => t ?? ((_k, f) => f ?? _k), [t]);
+
+  const hostRef = useRef(null);
+
+  const enterPresentationFullscreen = useCallback(async () => {
+    const el = hostRef.current;
+    if (!el?.requestFullscreen) return;
+    try {
+      await el.requestFullscreen({ navigationUI: "hide" });
+    } catch {
+      /* Blocked without user gesture or unsupported */
+    }
+  }, []);
+
+  const exitPresentationFullscreen = useCallback(async () => {
+    const el = hostRef.current;
+    if (!el || typeof document === "undefined" || document.fullscreenElement !== el) return;
+    try {
+      await document.exitFullscreen();
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const presentationFullscreenActive = useSyncExternalStore(
+    (onStoreChange) => {
+      if (typeof document === "undefined") return () => {};
+      document.addEventListener("fullscreenchange", onStoreChange);
+      return () => document.removeEventListener("fullscreenchange", onStoreChange);
+    },
+    () => {
+      const el = hostRef.current;
+      return Boolean(el && typeof document !== "undefined" && document.fullscreenElement === el);
+    },
+    () => false,
+  );
+
+  const togglePresentationFullscreen = useCallback(async () => {
+    const el = hostRef.current;
+    if (!el || typeof document === "undefined") return;
+    try {
+      if (document.fullscreenElement === el) {
+        await document.exitFullscreen();
+      } else if (el.requestFullscreen) {
+        await el.requestFullscreen({ navigationUI: "hide" });
+      }
+    } catch {
+      /* User gesture required or unsupported */
+    }
+  }, []);
+
+  const handleChromeDialChange = useCallback(
+    (detail) => {
+      emit?.("chrome:dial", detail);
+      onChromeDial?.(detail);
+    },
+    [emit, onChromeDial],
+  );
 
   const stableIdentity = useMemo(() => pickConsoleIdentityFields(identity), [
     identity?.isAuthenticated,
@@ -129,10 +212,26 @@ export default function ConsoleHost({
       identity: stableIdentity,
       chain: stableChain,
       channels: channels.api,
+      shell: {
+        ...channels.shell,
+        enterPresentationFullscreen,
+        exitPresentationFullscreen,
+      },
+      presentation: immersive ? "immersive" : "default",
       t: translate,
       emit,
     }),
-    [stableIdentity, stableChain, channels.api, translate, emit],
+    [
+      stableIdentity,
+      stableChain,
+      channels.api,
+      channels.shell,
+      immersive,
+      translate,
+      emit,
+      enterPresentationFullscreen,
+      exitPresentationFullscreen,
+    ],
   );
 
   const apiRef = useRef(api);
@@ -180,13 +279,26 @@ export default function ConsoleHost({
 
   const { state, set } = channels;
 
-  const channelBridge = useMemo(() => ({ state, set }), [state, set]);
+  const channelBridge = useMemo(
+    () => ({ state, set, shell: channels.shell }),
+    [state, set, channels.shell],
+  );
 
   const connectionsLabel = connectionsConfig?.label
     ?? translate("consoleNetwork.connections", "CONNECTIONS");
 
+  const immersiveChromeHidden = immersive && !channels.shell.immersiveChromeRevealed;
+
+  const hostClassName = [
+    immersive ? "edd-console-host edd-console-host--immersive" : "edd-console-host",
+    immersiveChromeHidden ? "edd-console-host--immersive-chrome-hidden" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <ConsoleSlotProvider register={register} unregister={unregister}>
+    <div ref={hostRef} className={hostClassName}>
+      <ConsoleSlotProvider register={register} unregister={unregister}>
       <ModuleComponent key={module.id} api={api} />
       {connectionsConfig && (
         <>
@@ -215,8 +327,17 @@ export default function ConsoleHost({
         channels={channelBridge}
         motionReduced={motionReduced}
         forceFullMotionCss={forceFullMotionCss}
+        presentation={immersive ? "immersive" : "default"}
+        visualTier={visualTierSafe}
+        tierExtra={tierExtra}
+        connectionsEnabled={Boolean(connectionsConfig)}
+        onImmersiveConnectionsOpen={() => setConnectionsOpen(true)}
+        presentationFullscreenActive={presentationFullscreenActive}
+        onTogglePresentationFullscreen={immersive ? togglePresentationFullscreen : undefined}
+        onChromeDialChange={handleChromeDialChange}
       />
     </ConsoleSlotProvider>
+    </div>
   );
 }
 
@@ -229,9 +350,17 @@ function HoloShellFromSlots({
   plate,
   labels,
   translate,
-  channels: { state, set },
+  channels: { state, set, shell },
   motionReduced,
   forceFullMotionCss,
+  presentation,
+  visualTier,
+  tierExtra,
+  connectionsEnabled,
+  onImmersiveConnectionsOpen,
+  presentationFullscreenActive,
+  onTogglePresentationFullscreen,
+  onChromeDialChange,
 }) {
   const slots = useSyncExternalStore(
     slotStore.subscribe,
@@ -246,10 +375,23 @@ function HoloShellFromSlots({
     return values.length ? values : null;
   };
 
+  const immersive = presentation === "immersive";
+
   return (
     <HoloFrameConsole
       motionReduced={motionReduced}
       forceFullMotionCss={forceFullMotionCss}
+      presentation={presentation}
+      visualTier={visualTier}
+      tierExtra={tierExtra}
+      immersiveDeckPinned={shell.immersiveDeckPinned}
+      immersiveChromeRevealed={immersive ? shell.immersiveChromeRevealed : true}
+      onImmersiveChromeRevealedChange={immersive ? (next) => shell.setImmersiveChromeRevealed(next) : undefined}
+      immersiveEdgeShowConnections={immersive && connectionsEnabled}
+      onImmersiveEdgeConnections={immersive && connectionsEnabled ? onImmersiveConnectionsOpen : undefined}
+      presentationFullscreenActive={presentationFullscreenActive}
+      onImmersivePresentationFullscreen={onTogglePresentationFullscreen}
+      onChromeDialChange={onChromeDialChange}
       plateId={plate.plateId}
       plateRev={plate.plateRev}
       caption={plate.caption}
@@ -260,6 +402,9 @@ function HoloShellFromSlots({
       rightChannel={renderChannel("right")}
       centerChannel={renderChannel("center")}
       bottomChannel={renderChannel("bottom")}
+      railLeftChannel={renderChannel("railLeft")}
+      railRightChannel={renderChannel("railRight")}
+      railDialChannel={renderChannel("railDial")}
       displayOn={state.power}
       onDisplayToggle={(next) => set.setPower(next)}
       engageLabel={labels.engage ?? translate("consoleNetwork.engage", "ENGAGE")}
