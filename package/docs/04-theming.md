@@ -54,19 +54,28 @@ All variables are declared with `:where(.edd-holo-rig)` so specificity is 0 — 
 - `--holo-rig-power-*` (color/bg/border/standby variants)
 - `--holo-rig-reset-*`
 
-## Channel frame colors
+### Channel overlays (α / β / MODAL / HUD)
 
-Channel panels use their own rgb colors (not yet variable-ized in v0.1). If you need to re-color the α/β/MODAL/HUD panel borders, override the class rules directly:
+Set these under `.edd-holo-rig` to match theme phosphors. Left/right lists share **`--holo-frame-list-bg`**; α and β can diverge on border/shadow.
+
+- **`--holo-frame-list-bg`** — α/β list panel fill (often semi-opaque dark).
+- **`--holo-frame-alpha-border`**, **`--holo-frame-alpha-shadow`** — Frame 1 (α rail).
+- **`--holo-frame-beta-border`**, **`--holo-frame-beta-shadow`** — Frame 2 (β rail).
+- **`--holo-frame-side-hover-border`** — list rails hover accent.
+- **`--holo-frame-modal-*`** — center modal (`bg`, `border`, `inner-glow`, `shadow`, hover variants).
+- **`--holo-frame-hud-*`** — bottom HUD (`bg`, `border`, `shadow`, hover border).
+
+Example:
 
 ```css
-.my-retro-console .holo-overlay__panel--frame1,
-.my-retro-console .holo-overlay__panel--frame2 {
-  border-color: rgba(249, 115, 22, 0.55);
-  background: rgba(28, 18, 10, 0.94);
+.my-retro-console .edd-holo-rig {
+  --holo-frame-list-bg: rgba(28, 18, 10, 0.94);
+  --holo-frame-alpha-border: rgba(249, 115, 22, 0.55);
+  --holo-frame-beta-border: rgba(249, 115, 22, 0.42);
+  --holo-frame-modal-border: rgba(251, 191, 36, 0.5);
+  --holo-frame-hud-border: rgba(52, 211, 153, 0.45);
 }
 ```
-
-Promoting these to `--holo-frame-*` variables is on the v0.2 list — see [Design review](./08-design-review.md).
 
 ## Theme packs
 

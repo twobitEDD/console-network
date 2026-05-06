@@ -110,7 +110,7 @@ Opt-in full-screen modal that lists every project in the public registry. Turn i
 ```jsx
 <ConsoleHost
   module={myGame}
-  connections={{ currentProjectId: "super-tic-tac-toe" }}
+  connections={{ currentProjectId: "xo3-games" }}
 />
 ```
 

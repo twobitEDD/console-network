@@ -28,6 +28,8 @@ describe("feature surface (static)", () => {
       ".edd-holo-rig__footer.is-peek-pinned",
       "--edd-scan-mul",
       "@keyframes edd-crt-power-off",
+      "--holo-frame-list-bg",
+      "--holo-channel-fg",
     ]) {
       assert.ok(css.includes(needle), `expected styles.css to contain ${needle}`);
     }

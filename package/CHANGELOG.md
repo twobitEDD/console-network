@@ -5,6 +5,21 @@ All notable changes to `@twobitedd/console-network` are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.8] - 2026-05-06
+
+### Added
+- **Theme hooks for channel overlays:** `--holo-frame-*` custom properties control α / β list rails, center modal, and bottom HUD surfaces (replacing hard-coded overlay RGB values).
+
+### Changed
+- **Footer deck:** grid layout keeps **`ENGAGE` / `STANDBY`** (power) as the **right-most** control again (`RESET` sits left of it when present).
+- **Mobile ergonomics:** safe-area padding on the rig shell + footer + Connections overlay; narrower rails/modal on small widths; **44px** minimum tap targets for coarse pointers on footer chrome, immersive edge buttons, and overlay buttons.
+- **Tests:** gzipped **`style.css`** budget raised for **`--holo-frame-*`** + mobile overlay rules.
+
+### Registry
+- Launch listings **`XO3.games`** and **`ERGO.games`** replace Super Tic-Tac-Toe; both use **`status: "coming-soon"`** (Connections panel shows a **Coming soon** badge). Schema accepts **`coming-soon`** alongside existing status values.
+
+[0.1.8]: https://github.com/twobitEDD/console-network/releases/tag/v0.1.8
+
 ## [0.1.7] - 2026-05-06
 
 ### Fixed

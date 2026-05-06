@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-06T19:35:51.554Z",
+  "generatedAt": "2026-05-06T20:18:09.482Z",
   "version": 1,
   "themes": [
     {
@@ -132,27 +132,51 @@
   ],
   "projects": [
     {
-      "id": "super-tic-tac-toe",
-      "slug": "super-tic-tac-toe",
-      "name": "Super Tic-Tac-Toe",
-      "owner": "twobitEDD",
-      "ownerUrl": "https://github.com/twobitEDD",
-      "url": "https://github.com/twobitEDD/super-tic-tac-toe-site",
-      "repo": "https://github.com/twobitEDD/super-tic-tac-toe-site",
+      "id": "ergo-games",
+      "slug": "ergo-games",
+      "name": "ERGO.games",
+      "owner": "ERGO",
+      "ownerUrl": "https://ergo.games",
+      "url": "https://ergo.games",
+      "repo": null,
       "license": "MIT",
-      "description": "Nested 3×3 tic-tac-toe where the last move dictates which sub-board you play next. Runs inside the Noxcruiser rig.",
+      "description": "Launch partner — ergonomic competitive titles on the Console Network shell. Listing reserved ahead of public beta and storefront hooks.",
       "longDescription": null,
       "tags": [
         "game",
-        "strategy",
-        "pvp"
+        "partner"
       ],
       "chainIds": [],
       "category": "game",
       "requiresWallet": false,
       "usesConsoleNetwork": true,
       "social": null,
-      "status": "active",
+      "status": "coming-soon",
+      "cover": null,
+      "icon": null
+    },
+    {
+      "id": "xo3-games",
+      "slug": "xo3-games",
+      "name": "XO3.games",
+      "owner": "XO3",
+      "ownerUrl": "https://xo3.games",
+      "url": "https://xo3.games",
+      "repo": null,
+      "license": "MIT",
+      "description": "Launch partner — expanded tic-tac-toe family and tournament shells built on the Console Network rig. Site live as a coming-soon landing.",
+      "longDescription": null,
+      "tags": [
+        "game",
+        "partner",
+        "strategy"
+      ],
+      "chainIds": [],
+      "category": "game",
+      "requiresWallet": false,
+      "usesConsoleNetwork": true,
+      "social": null,
+      "status": "coming-soon",
       "cover": null,
       "icon": null
     }

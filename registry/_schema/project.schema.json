@@ -41,6 +41,6 @@
         "telegram": { "type": "string", "format": "uri" }
       }
     },
-    "status": { "type": "string", "enum": ["active", "hidden", "deprecated", "incubating"], "default": "active" }
+    "status": { "type": "string", "enum": ["active", "hidden", "deprecated", "incubating", "coming-soon"], "default": "active" }
   }
 }

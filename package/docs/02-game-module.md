@@ -36,8 +36,8 @@ Define one with `defineGameModule(...)` — it's a no-op at runtime except for v
 
 ```jsx
 export const myGame = defineGameModule({
-  id: "super-tic-tac-toe",
-  title: "Super Tic-Tac-Toe",
+  id: "my-strategy-game",
+  title: "My Strategy Game",
   version: "1.0.0",
   plate: { sticker: "α" },
   Component: MyGame,
@@ -80,10 +80,10 @@ There is **no special init path** for module state — use React hooks. If you n
 - **Treat channels as overlays.** Anything the user can ignore while playing belongs in a channel.
 - **Close channels when done.** If your MODAL answered a question, `api.channels.setCenter(false)`.
 
-## Example: the Super Tic-Tac-Toe module sketch
+## Example: a module sketch with overlays
 
 ```jsx
-function SuperTicTacToe({ api }) {
+function StrategySketch({ api }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
@@ -123,11 +123,10 @@ function SuperTicTacToe({ api }) {
   );
 }
 
-export const superTicTacToe = defineGameModule({
-  id: "super-tic-tac-toe",
-  title: "Super Tic-Tac-Toe",
+export const strategySketchModule = defineGameModule({
+  id: "example-strategy-sketch",
+  title: "Example Strategy Sketch",
   version: "1.0.0",
-  Component: SuperTicTacToe,
-  requires: { requiresWallet: false },
+  Component: StrategySketch,
 });
 ```

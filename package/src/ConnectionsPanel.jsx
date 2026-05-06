@@ -11,7 +11,7 @@
  *   <ConnectionsPanel
  *     open={open}
  *     onClose={() => setOpen(false)}
- *     currentProjectId="super-tic-tac-toe"
+ *     currentProjectId="xo3-games"
  *   />
  *
  * The panel fetches registry/index.json on first open and caches it for the
@@ -177,9 +177,16 @@ export default function ConnectionsPanel({
                   <div className="holo-connections__card-body">
                     <div className="holo-connections__card-head">
                       <h3>{project.name}</h3>
-                      {project.id === currentProjectId && (
-                        <span className="holo-connections__badge">{labels.currentBadge}</span>
-                      )}
+                      <div className="holo-connections__card-badges">
+                        {project.status === "coming-soon" ? (
+                          <span className="holo-connections__badge holo-connections__badge--soon">
+                            {labels.comingSoonBadge}
+                          </span>
+                        ) : null}
+                        {project.id === currentProjectId ? (
+                          <span className="holo-connections__badge">{labels.currentBadge}</span>
+                        ) : null}
+                      </div>
                     </div>
                     <p className="holo-connections__owner">{project.owner}</p>
                     <p className="holo-connections__description">{project.description}</p>
@@ -256,6 +263,7 @@ const DEFAULT_LABELS = {
   openProject: "Open project",
   repo: "Repo",
   currentBadge: "you are here",
+  comingSoonBadge: "Coming soon",
   walletChip: "wallet",
   adjacentChip: "adjacent",
   footer: "Your project could be listed here.",

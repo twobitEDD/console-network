@@ -1,0 +1,19 @@
+{
+  "id": "ergo-games",
+  "slug": "ergo-games",
+  "name": "ERGO.games",
+  "owner": "ERGO",
+  "ownerUrl": "https://ergo.games",
+  "url": "https://ergo.games",
+  "license": "MIT",
+  "description": "Launch partner — ergonomic competitive titles on the Console Network shell. Listing reserved ahead of public beta and storefront hooks.",
+  "tags": ["game", "partner"],
+  "chainIds": [],
+  "category": "game",
+  "requiresWallet": false,
+  "usesConsoleNetwork": true,
+  "files": {
+    "readme": "README.md"
+  },
+  "status": "coming-soon"
+}

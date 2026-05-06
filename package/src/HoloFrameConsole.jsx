@@ -261,6 +261,11 @@ export default function HoloFrameConsole({
         </div>
         <div className="edd-holo-rig__footer-actions">
           {extraFooterActions}
+          {showReset && onReset ? (
+            <button type="button" className="edd-holo-rig__reset" onClick={onReset}>
+              {resetLabel}
+            </button>
+          ) : null}
           <button
             type="button"
             className="edd-holo-rig__power"
@@ -269,11 +274,6 @@ export default function HoloFrameConsole({
           >
             {displayOn ? standbyLabel : engageLabel}
           </button>
-          {showReset && onReset ? (
-            <button type="button" className="edd-holo-rig__reset" onClick={onReset}>
-              {resetLabel}
-            </button>
-          ) : null}
         </div>
       </footer>
   );

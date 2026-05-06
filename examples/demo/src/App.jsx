@@ -92,7 +92,7 @@ export default function App() {
           connections={
             connectionsEnabled
               ? {
-                  currentProjectId: "super-tic-tac-toe",
+                  currentProjectId: "xo3-games",
                   registryUrl: "/registry-index.json",
                 }
               : false

@@ -82,7 +82,7 @@
 /**
  * @typedef {Object} GameModule
  *   The thing every console-network game publishes.
- * @property {string} id         Stable, URL-safe id (e.g. "super-tic-tac-toe")
+ * @property {string} id         Stable, URL-safe id (e.g. `"xo3-games"`)
  * @property {string} title      Human title shown on the plate / caption
  * @property {string=} version
  * @property {{ plateId?:string, plateRev?:string, caption?:string, sticker?:string }=} plate

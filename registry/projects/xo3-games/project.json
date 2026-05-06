@@ -1,0 +1,19 @@
+{
+  "id": "xo3-games",
+  "slug": "xo3-games",
+  "name": "XO3.games",
+  "owner": "XO3",
+  "ownerUrl": "https://xo3.games",
+  "url": "https://xo3.games",
+  "license": "MIT",
+  "description": "Launch partner — expanded tic-tac-toe family and tournament shells built on the Console Network rig. Site live as a coming-soon landing.",
+  "tags": ["game", "partner", "strategy"],
+  "chainIds": [],
+  "category": "game",
+  "requiresWallet": false,
+  "usesConsoleNetwork": true,
+  "files": {
+    "readme": "README.md"
+  },
+  "status": "coming-soon"
+}

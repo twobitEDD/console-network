@@ -8,7 +8,7 @@
  *
  *        <ConsoleHost
  *          module={myGame}
- *          connections={{ currentProjectId: "super-tic-tac-toe" }}
+ *          connections={{ currentProjectId: "xo3-games" }}
  *        />
  *
  *      The host renders a fixed-position "CONNECTIONS" pill and lazy-loads the
@@ -43,7 +43,7 @@ function CustomTriggerGame() {
       <ConnectionsPanel
         open={open}
         onClose={() => setOpen(false)}
-        currentProjectId="super-tic-tac-toe"
+        currentProjectId="xo3-games"
       />
     </>
   );
@@ -62,7 +62,7 @@ export function App() {
   return (
     <ConsoleHost
       module={customTriggerGame}
-      connections={{ currentProjectId: "super-tic-tac-toe" }}
+      connections={{ currentProjectId: "xo3-games" }}
     />
   );
 }

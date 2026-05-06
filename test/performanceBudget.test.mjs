@@ -16,7 +16,7 @@ const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const BUDGETS = Object.freeze({
   "package/dist/console-network.es.js": 10_600,
   "package/dist/console-network.cjs.js": 8_800,
-  "package/dist/style.css": 9_900,
+  "package/dist/style.css": 10_650,
 });
 
 function gzipSize(relPath) {

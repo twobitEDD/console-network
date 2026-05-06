@@ -17,4 +17,8 @@
 
   --holo-rig-border: rgba(15, 23, 42, 0.18);
   --holo-rig-shadow-glow: rgba(15, 23, 42, 0.06);
+
+  /* Light panel fills (plastic-lo) need slate body copy, not phosphor-on-dark defaults */
+  --holo-channel-fg: #0f172a;
+  --holo-channel-muted: rgba(51, 65, 85, 0.88);
 }

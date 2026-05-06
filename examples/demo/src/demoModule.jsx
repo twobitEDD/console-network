@@ -114,8 +114,12 @@ function DemoGame({ api }) {
                     type="button"
                     style={{
                       ...styles.listItem,
-                      borderColor: active ? "#f87171" : "rgba(248,113,113,0.25)",
-                      background: active ? "rgba(248,113,113,0.12)" : "transparent",
+                      borderColor: active
+                        ? "var(--holo-warning)"
+                        : "color-mix(in srgb, var(--holo-warning) 32%, transparent)",
+                      background: active
+                        ? "color-mix(in srgb, var(--holo-warning) 14%, transparent)"
+                        : "transparent",
                     }}
                     onClick={() => {
                       setSelected(m.id);
@@ -324,7 +328,7 @@ const styles = {
   },
 
   panel: {
-    color: "#e2e8f0",
+    color: "var(--holo-channel-fg, #e2e8f0)",
     display: "flex",
     flexDirection: "column",
     gap: "0.6rem",
@@ -350,11 +354,11 @@ const styles = {
     textTransform: "uppercase",
     padding: "0.15rem 0.4rem",
     borderRadius: "0.3rem",
-    background: "rgba(15, 23, 42, 0.6)",
-    border: "1px solid rgba(248, 113, 113, 0.35)",
-    color: "#fca5a5",
+    background: "color-mix(in srgb, var(--holo-channel-fg, #0f172a) 8%, transparent)",
+    border: "1px solid color-mix(in srgb, var(--holo-warning) 38%, transparent)",
+    color: "var(--holo-warning)",
   },
-  panelBody: { margin: 0, color: "#cbd5e1" },
+  panelBody: { margin: 0, color: "var(--holo-channel-muted, #cbd5e1)" },
   dot: { width: "0.55rem", height: "0.55rem", borderRadius: "50%", display: "inline-block" },
 
   list: {
@@ -371,14 +375,17 @@ const styles = {
     width: "100%",
     padding: "0.55rem 0.7rem",
     borderRadius: "0.45rem",
-    border: "1px solid rgba(248, 113, 113, 0.25)",
-    color: "#fecaca",
+    border: "1px solid color-mix(in srgb, var(--holo-warning) 28%, transparent)",
+    color: "var(--holo-channel-fg, #fecaca)",
     textAlign: "left",
     cursor: "pointer",
     fontFamily: "inherit",
     transition: "background 0.15s ease, border-color 0.15s ease",
   },
-  listMeta: { fontSize: "0.7rem", color: "rgba(252, 165, 165, 0.7)" },
+  listMeta: {
+    fontSize: "0.7rem",
+    color: "var(--holo-channel-muted, rgba(252, 165, 165, 0.7))",
+  },
 
   kv: {
     margin: 0,
@@ -394,9 +401,9 @@ const styles = {
   buttonPrimary: {
     padding: "0.45rem 0.9rem",
     borderRadius: "0.4rem",
-    border: "1px solid rgba(244, 114, 182, 0.55)",
-    background: "rgba(244, 114, 182, 0.18)",
-    color: "#fbcfe8",
+    border: "1px solid color-mix(in srgb, var(--holo-warning) 55%, transparent)",
+    background: "color-mix(in srgb, var(--holo-warning) 16%, transparent)",
+    color: "var(--holo-channel-fg, #fbcfe8)",
     cursor: "pointer",
     fontFamily: "inherit",
     fontSize: "0.8rem",
@@ -404,9 +411,9 @@ const styles = {
   buttonGhost: {
     padding: "0.45rem 0.9rem",
     borderRadius: "0.4rem",
-    border: "1px solid rgba(148, 163, 184, 0.45)",
+    border: "1px solid color-mix(in srgb, var(--holo-channel-muted) 55%, transparent)",
     background: "transparent",
-    color: "#e2e8f0",
+    color: "var(--holo-channel-fg, #e2e8f0)",
     cursor: "pointer",
     fontFamily: "inherit",
     fontSize: "0.8rem",
@@ -414,9 +421,9 @@ const styles = {
   buttonSmall: {
     padding: "0.28rem 0.55rem",
     borderRadius: "0.3rem",
-    border: "1px solid rgba(74, 222, 128, 0.5)",
-    background: "rgba(16, 80, 50, 0.45)",
-    color: "#bbf7d0",
+    border: "1px solid color-mix(in srgb, var(--holo-warning) 42%, transparent)",
+    background: "color-mix(in srgb, var(--holo-warning) 12%, transparent)",
+    color: "var(--holo-channel-fg, #bbf7d0)",
     cursor: "pointer",
     fontFamily: "inherit",
     fontSize: "0.7rem",
@@ -430,9 +437,17 @@ const styles = {
     gap: "0.8rem",
     flexWrap: "wrap",
   },
-  hudLeft: { display: "flex", alignItems: "center", gap: "0.6rem", color: "#ecfccb" },
+  hudLeft: {
+    display: "flex",
+    alignItems: "center",
+    gap: "0.6rem",
+    color: "var(--holo-channel-fg, #ecfccb)",
+  },
   hudTitle: { fontSize: "0.9rem", letterSpacing: "0.08em" },
-  hudSub: { fontSize: "0.7rem", color: "rgba(190, 242, 100, 0.72)" },
+  hudSub: {
+    fontSize: "0.7rem",
+    color: "var(--holo-channel-muted, rgba(190, 242, 100, 0.72))",
+  },
   hudRight: { display: "flex", gap: "0.35rem", flexWrap: "wrap" },
 
   railChip: {
