@@ -71,7 +71,7 @@ export default function DemoSettingsMenu({
           style={{
             position: "fixed",
             inset: 0,
-            zIndex: 59,
+            zIndex: 118,
             background: "rgba(2, 6, 23, 0.22)",
           }}
           onPointerDown={(e) => {
@@ -86,7 +86,7 @@ export default function DemoSettingsMenu({
           position: "fixed",
           top: "max(8px, env(safe-area-inset-top))",
           right: "max(10px, env(safe-area-inset-right))",
-          zIndex: 60,
+          zIndex: 120,
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-end",

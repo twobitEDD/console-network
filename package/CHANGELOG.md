@@ -5,6 +5,18 @@ All notable changes to `@twobitedd/console-network` are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.7] - 2026-05-06
+
+### Fixed
+- **Immersive / fullscreen stacking:** the slim **`edd-holo-rig__immersive-edge`** toolbar is rendered **inside** **`edd-holo-glass__lens`** with **`z-index: 26`**, **below** **`holo-overlay-root`** (`28`), so α / β / MODAL / HUD panels stay interactive above deck controls (fullscreen-style layouts).
+- **Peek dock:** **`edd-holo-rig__immersive-dock`** **`z-index`** raised to **`50`** so the footer deck clears the lens stack.
+
+### Changed
+- **Connections trigger:** **`z-index`** is **`var(--holo-connections-trigger-z, 90)`** on **`edd-console-host`** so apps can tuck FABs below host-mounted chrome without patching package CSS.
+- **Tests:** gzipped **`style.css`** bundle budget raised slightly (**9800 → 9900** bytes) to match current shipped CSS.
+
+[0.1.7]: https://github.com/twobitEDD/console-network/releases/tag/v0.1.7
+
 ## [0.1.6] - 2026-05-06
 
 ### Changed

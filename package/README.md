@@ -116,6 +116,14 @@ Opt-in full-screen modal that lists every project in the public registry. Turn i
 
 You get a fixed "CONNECTIONS" pill in the top-right corner and a searchable, tag-filterable directory of every project anyone has registered. Your project should be in there too — [publish it](./docs/10-publishing.md).
 
+The pill uses **`z-index: var(--holo-connections-trigger-z, 90)`** on the **`edd-console-host`** wrapper. Lower it if your app’s menus sit beneath it:
+
+```css
+.my-shell.edd-console-host {
+  --holo-connections-trigger-z: 40;
+}
+```
+
 ## Status
 
 - **v0.1** — usable today, but APIs may evolve before v1. The `GameModule` contract is the stable surface authors should rely on.

@@ -326,7 +326,9 @@ export default function HoloFrameConsole({
               >
                 <span className="edd-holo-glass__lens-rim" aria-hidden="true" />
                 <span className="edd-holo-glass__lens-arc" aria-hidden="true" />
-                <div className="edd-holo-glass__viewport">{viewport}</div>
+                <div className="edd-holo-glass__viewport">
+                  <div className="edd-holo-glass__viewport-surface">{viewport}</div>
+                </div>
                 <span className="edd-holo-glass__shine" aria-hidden="true" />
                 <span className="edd-holo-glass__tint" aria-hidden="true" />
                 <span className="edd-holo-glass__scanlines" aria-hidden="true" />
@@ -380,6 +382,55 @@ export default function HoloFrameConsole({
                     </div>
                   ) : null}
                 </div>
+                {immersive ? (
+                  <div className="edd-holo-rig__immersive-edge" role="toolbar" aria-label="Console">
+                    {immersiveChromeRevealed ? (
+                      <button
+                        type="button"
+                        className="edd-holo-rig__immersive-edge-btn"
+                        aria-label="Hide console deck"
+                        title="Hide console deck"
+                        onClick={() => onImmersiveChromeRevealedChange?.(false)}
+                      >
+                        ‹
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="edd-holo-rig__immersive-edge-btn edd-holo-rig__immersive-edge-btn--primary"
+                        aria-label="Show console deck"
+                        title="Show console deck"
+                        onClick={() => onImmersiveChromeRevealedChange?.(true)}
+                      >
+                        ›
+                      </button>
+                    )}
+                    {onImmersivePresentationFullscreen ? (
+                      <button
+                        type="button"
+                        className="edd-holo-rig__immersive-edge-btn edd-holo-rig__immersive-edge-btn--fullscreen"
+                        aria-label={
+                          presentationFullscreenActive ? "Exit system fullscreen" : "Enter system fullscreen"
+                        }
+                        title={presentationFullscreenActive ? "Exit fullscreen" : "Fullscreen"}
+                        onClick={() => onImmersivePresentationFullscreen()}
+                      >
+                        {presentationFullscreenActive ? "⤓" : "⛶"}
+                      </button>
+                    ) : null}
+                    {immersiveEdgeShowConnections ? (
+                      <button
+                        type="button"
+                        className="edd-holo-rig__immersive-edge-btn edd-holo-rig__immersive-edge-btn--accent"
+                        aria-label="Connections"
+                        title="Connections"
+                        onClick={() => onImmersiveEdgeConnections?.()}
+                      >
+                        ◎
+                      </button>
+                    ) : null}
+                  </div>
+                ) : null}
               </div>
               <p className="edd-holo-glass__caption">{caption}</p>
             </div>
@@ -414,59 +465,12 @@ export default function HoloFrameConsole({
       </div>
 
       {immersive ? (
-        <>
-          <div className="edd-holo-rig__immersive-edge" role="toolbar" aria-label="Console">
-            {immersiveChromeRevealed ? (
-              <button
-                type="button"
-                className="edd-holo-rig__immersive-edge-btn"
-                aria-label="Hide console deck"
-                title="Hide console deck"
-                onClick={() => onImmersiveChromeRevealedChange?.(false)}
-              >
-                ‹
-              </button>
-            ) : (
-              <button
-                type="button"
-                className="edd-holo-rig__immersive-edge-btn edd-holo-rig__immersive-edge-btn--primary"
-                aria-label="Show console deck"
-                title="Show console deck"
-                onClick={() => onImmersiveChromeRevealedChange?.(true)}
-              >
-                ›
-              </button>
-            )}
-            {onImmersivePresentationFullscreen ? (
-              <button
-                type="button"
-                className="edd-holo-rig__immersive-edge-btn edd-holo-rig__immersive-edge-btn--fullscreen"
-                aria-label={presentationFullscreenActive ? "Exit system fullscreen" : "Enter system fullscreen"}
-                title={presentationFullscreenActive ? "Exit fullscreen" : "Fullscreen"}
-                onClick={() => onImmersivePresentationFullscreen()}
-              >
-                {presentationFullscreenActive ? "⤓" : "⛶"}
-              </button>
-            ) : null}
-            {immersiveEdgeShowConnections ? (
-              <button
-                type="button"
-                className="edd-holo-rig__immersive-edge-btn edd-holo-rig__immersive-edge-btn--accent"
-                aria-label="Connections"
-                title="Connections"
-                onClick={() => onImmersiveEdgeConnections?.()}
-              >
-                ◎
-              </button>
-            ) : null}
+        immersiveChromeRevealed ? (
+          <div className="edd-holo-rig__immersive-dock">
+            <div className="edd-holo-rig__peek-hitbox" aria-hidden />
+            {footerEl}
           </div>
-          {immersiveChromeRevealed ? (
-            <div className="edd-holo-rig__immersive-dock">
-              <div className="edd-holo-rig__peek-hitbox" aria-hidden />
-              {footerEl}
-            </div>
-          ) : null}
-        </>
+        ) : null
       ) : (
         footerEl
       )}

@@ -51,6 +51,7 @@ describe("feature surface (static)", () => {
 
   test("HoloFrame wires immersive dock + tier extras + fullscreen edge", () => {
     const src = readFileSync(holoPath, "utf8");
+    assert.ok(src.includes("edd-holo-glass__viewport-surface"));
     assert.ok(src.includes("edd-holo-rig__immersive-dock"));
     assert.ok(src.includes("immersiveDeckPinned"));
     assert.ok(src.includes("edd-holo-glass__lens-breathe-layer"));

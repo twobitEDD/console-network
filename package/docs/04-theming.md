@@ -13,6 +13,7 @@ Every color in the rig flows through CSS custom properties prefixed `--holo-*`. 
   --holo-led: linear-gradient(180deg, #fde047, #b45309);
   --holo-glass-viewport-on-bg: radial-gradient(#1a1208, #000);
   --holo-glass-viewport-on-shadow: inset 0 0 0 1px rgba(249, 115, 22, 0.35);
+  --holo-glass-viewport-standby-bg: #070503;
 }
 ```
 
@@ -42,6 +43,9 @@ All variables are declared with `:where(.edd-holo-rig)` so specificity is 0 — 
 - `--holo-glass-lens-arc`
 - `--holo-glass-viewport-bg`, `--holo-glass-viewport-border`
 - `--holo-glass-viewport-on-bg`, `--holo-glass-viewport-on-shadow`
+- **`--holo-glass-viewport-standby-bg`** — full-frame fill behind the CRT zip when the display is off (default `#000`).
+- **`--holo-glass-viewport-zip-bg`** — picture-tube fill during the collapse animation (defaults to `--holo-glass-viewport-on-bg`).
+- **`--holo-glass-viewport-zip-phosphor`** — sweep line color for the zip overlay (default mint-white).
 - `--holo-glass-tint`
 - `--holo-glass-caption`
 

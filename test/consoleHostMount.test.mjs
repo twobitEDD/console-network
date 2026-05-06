@@ -84,6 +84,10 @@ describe("ConsoleHost (jsdom)", () => {
 
     assert.ok(env.container.querySelector(".edd-console-host--immersive"));
     assert.ok(env.container.querySelector(".edd-holo-rig--immersive"));
+    assert.ok(
+      env.container.querySelector(".edd-holo-glass__lens .edd-holo-rig__immersive-edge"),
+      "immersive edge should stack inside the lens below overlays",
+    );
     assert.equal(env.container.querySelector("#vp span")?.textContent, "immersive");
   });
 
