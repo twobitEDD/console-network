@@ -5,6 +5,21 @@ All notable changes to `@twobitedd/console-network` are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.9] - 2026-05-06
+
+### Added
+- **Channel typography tokens:** **`--holo-channel-fg`** and **`--holo-channel-muted`** for body copy on α / β / MODAL / HUD surfaces. Overlay panels set **`color: var(--holo-channel-fg)`** so slot content inherits readable contrast; light themes override both.
+
+### Fixed
+- **Themes on overlay chrome:** **`--holo-frame-*`** defaults are derived with **`color-mix`** from **`--holo-plastic-lo`**, **`--holo-warning`**, and **`--holo-phosphor`**, so cycling registry themes updates list / modal / HUD fills and borders without per-theme **`--holo-frame-*`** copies.
+- **Essential theme:** slate **`--holo-channel-*`** overrides fix **light text on light panel backgrounds** after frame fills picked up bone plastics.
+
+### Changed
+- **Demo module:** slot styles use **`var(--holo-channel-*)`** and **`color-mix`** with **`var(--holo-warning)`** so the sample game stays legible in dark rigs and **essential**.
+- **Tests:** feature surface checks **`--holo-channel-fg`**; gzipped **`style.css`** budget raised to **10650** bytes.
+
+[0.1.9]: https://github.com/twobitEDD/console-network/releases/tag/v0.1.9
+
 ## [0.1.8] - 2026-05-06
 
 ### Added
