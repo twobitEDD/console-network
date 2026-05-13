@@ -1156,13 +1156,13 @@
 }
 
 .holo-overlay__panel--frame1 {
-  border-radius: 0 0.7rem 0.7rem 0;
+  border-radius: 0.45rem 0.85rem 0.85rem 0.45rem;
   border: 1px solid var(--holo-frame-alpha-border);
   box-shadow: var(--holo-frame-alpha-shadow);
 }
 
 .holo-overlay__panel--frame2 {
-  border-radius: 0.7rem 0 0 0.7rem;
+  border-radius: 0.85rem 0.45rem 0.45rem 0.85rem;
   border: 1px solid var(--holo-frame-beta-border);
   box-shadow: var(--holo-frame-beta-shadow);
 }
@@ -1234,13 +1234,96 @@
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   padding: 0.48rem 0.55rem 0.55rem;
-  border-radius: 0.85rem 0.85rem 0 0;
+  border-radius: 0.95rem 0.95rem 0.4rem 0.4rem;
   border: 1px solid var(--holo-frame-hud-border);
   background: var(--holo-frame-hud-bg);
   color: var(--holo-channel-fg);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   box-shadow: var(--holo-frame-hud-shadow);
+}
+
+/* ---------- Viewport edge channel tabs (optional alternative to footer deck toggles) ---------- */
+.edd-holo-rig__viewport-channel-tabs {
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  pointer-events: none;
+}
+
+.edd-holo-rig__viewport-channel-tab {
+  position: absolute;
+  appearance: none;
+  margin: 0;
+  pointer-events: auto;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.15;
+  padding: 0.4rem 0.52rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.42);
+  color: #e2e8f0;
+  background: rgba(15, 23, 42, 0.78);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.32);
+  max-width: min(40vw, 10.5rem);
+  text-align: center;
+  transition:
+    transform 0.16s ease,
+    filter 0.16s ease,
+    border-color 0.16s ease;
+}
+
+.edd-holo-rig__viewport-channel-tab:hover {
+  filter: brightness(1.1);
+  border-color: rgba(56, 189, 248, 0.5);
+}
+
+.edd-holo-rig__viewport-channel-tab[aria-pressed="true"] {
+  color: #0f172a;
+  background: rgba(186, 230, 253, 0.92);
+  border-color: rgba(56, 189, 248, 0.55);
+}
+
+.edd-holo-rig__viewport-channel-tab--left {
+  left: max(0.35rem, env(safe-area-inset-left, 0px));
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.edd-holo-rig__viewport-channel-tab--right {
+  right: max(0.35rem, env(safe-area-inset-right, 0px));
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.edd-holo-rig__viewport-channel-tab--bottom {
+  left: 50%;
+  bottom: max(0.35rem, env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+}
+
+.edd-holo-rig__viewport-channel-tab--top {
+  left: 50%;
+  top: max(0.35rem, env(safe-area-inset-top, 0px));
+  transform: translateX(-50%);
+}
+
+.edd-holo-rig__viewport-channel-tab--center {
+  left: 50%;
+  top: max(2.75rem, env(safe-area-inset-top, 0px));
+  transform: translateX(-50%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edd-holo-rig__viewport-channel-tab {
+    transition: none;
+  }
 }
 
 .holo-console-footer-deck { flex-wrap: wrap; align-items: center; gap: 0.35rem; width: 100%; min-width: 0; }
@@ -1925,6 +2008,16 @@
   flex-direction: column;
   gap: 0.42rem;
   pointer-events: auto;
+}
+
+/* When viewport edge tabs are shown, keep legacy chevrons off the mid-left rail */
+.edd-holo-rig__immersive-edge--avoid-viewport-tabs {
+  top: auto;
+  bottom: max(0.45rem, env(safe-area-inset-bottom, 0px));
+  left: max(0.35rem, env(safe-area-inset-left, 0px));
+  transform: none;
+  flex-direction: row;
+  align-items: center;
 }
 
 .edd-holo-rig__immersive-edge-btn {

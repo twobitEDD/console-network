@@ -91,6 +91,26 @@ describe("ConsoleHost (jsdom)", () => {
     assert.equal(env.container.querySelector("#vp span")?.textContent, "immersive");
   });
 
+  test("viewport-edge channel tabs render without immersive aux strip when disabled", async () => {
+    env = installJsdomConsoleEnv();
+    root = createRoot(env.container);
+    const mod = makeModule();
+
+    await act(async () => {
+      root.render(
+        React.createElement(ConsoleHost, {
+          module: mod,
+          presentation: "immersive",
+          channelToggleSurface: "viewport-edges",
+          immersiveAuxControls: false,
+        }),
+      );
+    });
+
+    assert.ok(env.container.querySelector(".edd-holo-rig__viewport-channel-tabs"));
+    assert.equal(env.container.querySelector(".edd-holo-rig__immersive-edge"), null);
+  });
+
   test("visualTier extra renders static TV lens overlays (no pointer-driven glare)", async () => {
     env = installJsdomConsoleEnv();
     root = createRoot(env.container);

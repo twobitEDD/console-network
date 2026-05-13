@@ -5,6 +5,18 @@ All notable changes to `@twobitedd/console-network` are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.10] - 2026-05-13
+
+### Added
+- **`ConsoleHost` / `HoloFrameConsole`:** `channelToggleSurface` (`footer` | `viewport-edges` | `both`) moves α / β / HUD toggles onto **viewport edge pill tabs** (left / right / bottom; immersive **top** tab for deck visibility). Optional labels `deckToggle`, `deckToggleAria`, `channelTabsToolbarAria`.
+- **`immersiveAuxControls`:** when `false`, hides the slim **immersive edge** control stack (‹ › fullscreen); pair with viewport tabs + top **deck** tab for production shells.
+
+### Changed
+- **Overlay list rails + HUD:** softer default **border-radius** on α / β / bottom panels (card-like corners).
+- **Immersive edge + viewport tabs:** when both are enabled, the edge stack **docks bottom-left** (`edd-holo-rig__immersive-edge--avoid-viewport-tabs`) to avoid overlapping mid-height side tabs.
+
+[0.1.10]: https://github.com/twobitEDD/console-network/releases/tag/v0.1.10
+
 ## [0.1.9] - 2026-05-06
 
 ### Added

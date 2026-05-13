@@ -26,6 +26,7 @@ describe("feature surface (static)", () => {
       ".edd-holo-glass__lens-prism",
       ".edd-holo-rig__immersive-edge-btn--fullscreen",
       ".edd-holo-rig__footer.is-peek-pinned",
+      ".edd-holo-rig__viewport-channel-tabs",
       "--edd-scan-mul",
       "@keyframes edd-crt-power-off",
       "--holo-frame-list-bg",
@@ -44,19 +45,22 @@ describe("feature surface (static)", () => {
     assert.ok(src.includes("immersive"));
   });
 
-  test("ConsoleHost accepts presentation + visualTier", () => {
+  test("ConsoleHost accepts presentation + visualTier + channelToggleSurface", () => {
     const src = readFileSync(hostPath, "utf8");
     assert.ok(src.includes('presentation = "default"'));
     assert.ok(src.includes('visualTier = "balanced"'));
     assert.ok(src.includes('presentation: immersive ? "immersive" : "default"'));
+    assert.ok(src.includes("channelToggleSurface"));
   });
 
-  test("HoloFrame wires immersive dock + tier extras + fullscreen edge", () => {
+  test("HoloFrame wires immersive dock + tier extras + viewport tabs + fullscreen edge", () => {
     const src = readFileSync(holoPath, "utf8");
     assert.ok(src.includes("edd-holo-glass__viewport-surface"));
     assert.ok(src.includes("edd-holo-rig__immersive-dock"));
     assert.ok(src.includes("immersiveDeckPinned"));
     assert.ok(src.includes("edd-holo-glass__lens-breathe-layer"));
     assert.ok(src.includes("onImmersivePresentationFullscreen"));
+    assert.ok(src.includes("edd-holo-rig__viewport-channel-tabs"));
+    assert.ok(src.includes("channelToggleSurface"));
   });
 });

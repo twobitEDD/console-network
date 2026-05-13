@@ -66,6 +66,7 @@ const EMPTY_LABELS = Object.freeze({});
  *     engage:string, standby:string,
  *     leftToggle:string, rightToggle:string, centerToggle:string, bottomToggle:string,
  *     leftToggleAria:string, rightToggleAria:string, centerToggleAria:string, bottomToggleAria:string,
+ *     deckToggle:string, deckToggleAria:string, channelTabsToolbarAria:string,
  *     rigAria:string,
  *   }>,
  *   connections?: boolean | { currentProjectId?: string, registryUrl?: string, label?: string },
@@ -74,6 +75,8 @@ const EMPTY_LABELS = Object.freeze({});
  *   presentation?: 'default' | 'immersive',
  *   visualTier?: 'potato' | 'balanced' | 'extra',
  *   debug?: boolean,
+ *   channelToggleSurface?: 'footer' | 'viewport-edges' | 'both',
+ *   immersiveAuxControls?: boolean,
  * }} props
  */
 export default function ConsoleHost({
@@ -91,6 +94,8 @@ export default function ConsoleHost({
   presentation = "default",
   visualTier = "balanced",
   debug = false,
+  channelToggleSurface = "footer",
+  immersiveAuxControls = true,
 }) {
   const connectionsConfig = connections === true ? {} : connections || null;
   const prefersReduced = usePrefersReducedMotion();
@@ -335,6 +340,8 @@ export default function ConsoleHost({
         presentationFullscreenActive={presentationFullscreenActive}
         onTogglePresentationFullscreen={immersive ? togglePresentationFullscreen : undefined}
         onChromeDialChange={handleChromeDialChange}
+        channelToggleSurface={channelToggleSurface}
+        immersiveAuxControls={immersiveAuxControls}
       />
     </ConsoleSlotProvider>
     </div>
@@ -361,6 +368,8 @@ function HoloShellFromSlots({
   presentationFullscreenActive,
   onTogglePresentationFullscreen,
   onChromeDialChange,
+  channelToggleSurface,
+  immersiveAuxControls,
 }) {
   const slots = useSyncExternalStore(
     slotStore.subscribe,
@@ -425,6 +434,16 @@ function HoloShellFromSlots({
       onCenterOpenChange={(next) => set.setCenter(next)}
       bottomOpen={state.bottomOpen}
       onBottomOpenChange={(next) => set.setBottom(next)}
+      channelToggleSurface={channelToggleSurface}
+      immersiveAuxControls={immersiveAuxControls}
+      deckToggleLabel={labels.deckToggle ?? translate("consoleNetwork.deckToggle", "Console")}
+      deckToggleAria={
+        labels.deckToggleAria ?? translate("consoleNetwork.deckToggleAria", "Show or hide console toolbar")
+      }
+      channelTabsToolbarAria={
+        labels.channelTabsToolbarAria ??
+        translate("consoleNetwork.channelTabsToolbarAria", "Side and status panels")
+      }
     />
   );
 }

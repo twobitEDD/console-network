@@ -64,6 +64,18 @@ export default function HoloFrameConsole({
   onImmersivePresentationFullscreen = undefined,
   footerDecorLeft = null,
   footerDecorRight = null,
+  /**
+   * Where channel open/close controls live:
+   * - `footer` — toggles in the holo footer deck (default).
+   * - `viewport-edges` — pill tabs on the viewport (left / right / bottom; top in immersive toggles deck visibility).
+   * - `both` — footer and viewport tabs.
+   */
+  channelToggleSurface = "footer",
+  /** When `false`, hides the slim immersive edge strip (‹ › fullscreen) — use viewport top tab + edge tabs instead. */
+  immersiveAuxControls = true,
+  deckToggleLabel = "Console",
+  deckToggleAria = "Show or hide console toolbar",
+  channelTabsToolbarAria = "Side and status panels",
 }) {
   const lensRef = useRef(null);
   const parallaxRafRef = useRef(0);
@@ -180,6 +192,10 @@ export default function HoloFrameConsole({
   const hasRailRight = Boolean(railRightChannel);
   const hasRailDial = Boolean(railDialChannel);
   const showDeckToggles = hasLeft || hasRight || hasCenter || hasBottom;
+  const footerShowsChannelButtons =
+    channelToggleSurface === "footer" || channelToggleSurface === "both";
+  const viewportShowsEdgeTabs =
+    channelToggleSurface === "viewport-edges" || channelToggleSurface === "both";
 
   const immersive = presentation === "immersive";
 
@@ -201,7 +217,7 @@ export default function HoloFrameConsole({
   const footerEl = (
       <footer className={footerClass}>
         <div className="edd-holo-rig__footer-channel holo-console-footer-deck">
-          {showDeckToggles ? (
+          {showDeckToggles && footerShowsChannelButtons ? (
             <>
               <div className="holo-console-footer-toggles">
                 {hasLeft ? (
@@ -251,6 +267,8 @@ export default function HoloFrameConsole({
               </div>
               <span className="edd-holo-rig__footer-wave" aria-hidden="true" />
             </>
+          ) : showDeckToggles ? (
+            <span className="edd-holo-rig__footer-wave" aria-hidden="true" />
           ) : (
             <>
               {footerDecorLeft}
@@ -337,6 +355,74 @@ export default function HoloFrameConsole({
                 <span className="edd-holo-glass__vignette" aria-hidden="true" />
                 {tierExtra ? <span className="edd-holo-glass__lens-breathe-layer" aria-hidden="true" /> : null}
                 {tierExtra ? <span className="edd-holo-glass__lens-prism" aria-hidden="true" /> : null}
+                {viewportShowsEdgeTabs && showDeckToggles ? (
+                  <div
+                    className="edd-holo-rig__viewport-channel-tabs"
+                    role="toolbar"
+                    aria-label={channelTabsToolbarAria}
+                  >
+                    {immersive && onImmersiveChromeRevealedChange ? (
+                      <button
+                        type="button"
+                        className="edd-holo-rig__viewport-channel-tab edd-holo-rig__viewport-channel-tab--top"
+                        aria-pressed={immersiveChromeRevealed}
+                        aria-label={deckToggleAria}
+                        title={deckToggleAria}
+                        onClick={() => onImmersiveChromeRevealedChange(!immersiveChromeRevealed)}
+                      >
+                        {deckToggleLabel}
+                      </button>
+                    ) : null}
+                    {hasLeft ? (
+                      <button
+                        type="button"
+                        className="edd-holo-rig__viewport-channel-tab edd-holo-rig__viewport-channel-tab--left"
+                        aria-pressed={leftOpen}
+                        aria-label={leftToggleAria}
+                        title={leftToggleAria}
+                        onClick={() => setLeftOpen(!leftOpen)}
+                      >
+                        {leftToggleLabel}
+                      </button>
+                    ) : null}
+                    {hasRight ? (
+                      <button
+                        type="button"
+                        className="edd-holo-rig__viewport-channel-tab edd-holo-rig__viewport-channel-tab--right"
+                        aria-pressed={rightOpen}
+                        aria-label={rightToggleAria}
+                        title={rightToggleAria}
+                        onClick={() => setRightOpen(!rightOpen)}
+                      >
+                        {rightToggleLabel}
+                      </button>
+                    ) : null}
+                    {hasCenter ? (
+                      <button
+                        type="button"
+                        className="edd-holo-rig__viewport-channel-tab edd-holo-rig__viewport-channel-tab--center"
+                        aria-pressed={centerOpen}
+                        aria-label={centerToggleAria}
+                        title={centerToggleAria}
+                        onClick={() => setCenterOpen(!centerOpen)}
+                      >
+                        {centerToggleLabel}
+                      </button>
+                    ) : null}
+                    {hasBottom ? (
+                      <button
+                        type="button"
+                        className="edd-holo-rig__viewport-channel-tab edd-holo-rig__viewport-channel-tab--bottom"
+                        aria-pressed={bottomOpen}
+                        aria-label={bottomToggleAria}
+                        title={bottomToggleAria}
+                        onClick={() => setBottomOpen(!bottomOpen)}
+                      >
+                        {bottomToggleLabel}
+                      </button>
+                    ) : null}
+                  </div>
+                ) : null}
                 <div
                   className="holo-overlay-root"
                   aria-hidden={!leftOpen && !rightOpen && !centerOpen && !bottomOpen}
@@ -382,8 +468,14 @@ export default function HoloFrameConsole({
                     </div>
                   ) : null}
                 </div>
-                {immersive ? (
-                  <div className="edd-holo-rig__immersive-edge" role="toolbar" aria-label="Console">
+                {immersive && immersiveAuxControls ? (
+                  <div
+                    className={`edd-holo-rig__immersive-edge${
+                      viewportShowsEdgeTabs ? " edd-holo-rig__immersive-edge--avoid-viewport-tabs" : ""
+                    }`}
+                    role="toolbar"
+                    aria-label="Console"
+                  >
                     {immersiveChromeRevealed ? (
                       <button
                         type="button"
